@@ -41,7 +41,7 @@ export default function Screen() {
             <CardDescription className='text-base font-semibold'>Scientist</CardDescription>
             <Tooltip delayDuration={150}>
               <TooltipTrigger className='px-2 pb-0.5 active:opacity-50'>
-                <Info size={14} strokeWidth={2.5} className='w-4 h-4 text-foreground/70' />
+                <Info size={14} strokeWidth={2.5} className='w-4 h-4 text-foreground/70 mt-[4px]' />
               </TooltipTrigger>
               <TooltipContent className='py-2 px-4 shadow'>
                 <Text className='native:text-lg'>Freelance</Text>
