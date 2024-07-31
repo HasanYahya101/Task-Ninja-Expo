@@ -15,12 +15,19 @@ import {
 import { Progress } from '~/components/ui/progress';
 import { Text } from '~/components/ui/text';
 import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip';
+import { Plus } from '~/lib/icons/Plus';
+import { TouchableOpacity } from 'react-native';
 
 export default function Screen() {
 
   return (
-    <View className='flex-1 justify-center items-center gap-5 p-6 bg-secondary/30 w-full h-full max-h-screen max-w-[100vw]'>
-
+    <View className='flex-1 justify-center items-center gap-5 p-6 bg-secondary/30'>
+      <TouchableOpacity
+        className='absolute bottom-8 right-8 rounded-[200px] bg-blue-500 h-[68px] w-[68px] flex items-center justify-center'
+      >
+        <Plus className='text-white' size={26}
+        />
+      </TouchableOpacity>
     </View>
   );
 }
