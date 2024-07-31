@@ -44,7 +44,7 @@ export default function Screen() {
         {days.map((day, index) => (
           <TouchableOpacity
             key={index}
-            className='p-3 bg-gray-200 rounded-full shadow-md mx-1.5 h-12'
+            className='p-3 bg-blue-400 dark:bg-gray-50 rounded-full shadow-md mx-1.5 h-12'
           >
             <Text className='text-primary font-bold text-white dark:text-black'>{formatDate(day)}</Text>
           </TouchableOpacity>
