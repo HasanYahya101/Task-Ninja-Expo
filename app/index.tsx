@@ -23,7 +23,7 @@ export default function Screen() {
   return (
     <View className='flex-1 justify-center items-center gap-5 p-6 bg-secondary/30'>
       <TouchableOpacity
-        className='absolute bottom-8 right-8 rounded-[200px] bg-blue-500 h-[68px] w-[68px] flex items-center justify-center'
+        className='z-50 absolute bottom-8 right-8 rounded-full bg-blue-500 h-[68px] w-[68px] flex items-center justify-center'
       >
         <Plus className='text-white' size={26}
         />
