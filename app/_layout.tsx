@@ -10,7 +10,6 @@ import { NAV_THEME } from '~/lib/constants';
 import { useColorScheme } from '~/lib/useColorScheme';
 import { PortalHost } from '@rn-primitives/portal';
 import { ThemeToggle } from '~/components/ThemeToggle';
-import HamburgerMenu from '~/components/hamburger-menu';
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -69,9 +68,8 @@ export default function RootLayout() {
         <Stack.Screen
           name='index'
           options={{
-            title: '',
+            title: 'Task Ninja',
             headerRight: () => <ThemeToggle />,
-            headerLeft: () => <HamburgerMenu />,
           }}
         />
       </Stack>
