@@ -60,7 +60,7 @@ importers:
         specifier: ~3.0.6
         version: 3.0.7(expo@51.0.24(@babel/core@7.25.2)(@babel/preset-env@7.25.3(@babel/core@7.25.2)))
       expo-router:
-        specifier: ~3.5.16
+        specifier: ~3.5.20
         version: 3.5.20(vkydgg7fqkc6aidhwlwb7bwx7y)
       expo-splash-screen:
         specifier: ~0.27.5
