@@ -29,16 +29,16 @@ export default function Screen() {
 	return (
 		<View className='z-10 flex-1 justify-start gap-0 p-0 bg-white dark:bg-black h-full'>
 			{/*Tabs*/}
-			<View className="flex-row border-b border-gray-700 mb-4 mx-3">
+			<View className="flex-row border-b border-gray-400 mb-4 mx-0 mt-[22px]">
 				<TouchableOpacity
-					className={`flex-row items-center pb-2 ${activeTab === 'My Tasks' ? 'border-b-2 border-blue-500' : ''}`}
+					className={`ml-6 mr-2 flex-row items-center pb-2 ${activeTab === 'My Tasks' ? 'border-b-2 border-blue-500' : ''}`}
 					onPress={() => setActiveTab('My Tasks')}
 				>
 					<Star className="w-4 h-4 mr-2 text-blue-500" />
 					<Text>My Tasks</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
-					className={`flex-row items-center pb-2 ${activeTab === 'New list' ? 'border-b-2 border-blue-500' : ''}`}
+					className={`ml-2 flex-row items-center pb-2 ${activeTab === 'New list' ? 'border-b-2 border-blue-500' : ''}`}
 					onPress={() => setActiveTab('New list')}
 				>
 					<Plus className="w-4 h-4 mr-2" />
