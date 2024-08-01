@@ -28,12 +28,12 @@ export default function Screen() {
 	};
 
 	return (
-		<View className='z-10 flex-1 justify-center items-center gap-0 p-0 bg-white dark:bg-black h-full'>
+		<View className='z-10 flex-1 justify-start items-center gap-0 p-0 bg-white dark:bg-black h-full'>
 			<ScrollView
 				horizontal
 				contentContainerStyle={{ paddingHorizontal: 10 }}
 				showsHorizontalScrollIndicator={false}
-				className='w-full mt-3 mb-0'
+				className='w-full mt-3 mb-0 max-h-12'
 			>
 				{days.map((day, index) => (
 					<TouchableOpacity
