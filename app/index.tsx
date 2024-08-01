@@ -19,39 +19,33 @@ import { Plus } from '~/lib/icons/Plus';
 import { TouchableOpacity, ScrollView } from 'react-native';
 import { Trash2Icon } from '~/lib/icons/Trash2Icon';
 import { Checkbox } from '~/components/ui/checkbox';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
+import { Star } from '~/lib/icons/Star';
 
 export default function Screen() {
 
-	const days = [new Date(), new Date(), new Date(), new Date(), new Date(), new Date(), new Date()];
-	const formatDate = (date: Date) => {
-		return date.toLocaleDateString('en-US', {
-			weekday: 'short', month: 'short', day: 'numeric'
-		});
-	};
-
+	const [activeTab, setActiveTab] = React.useState('My Tasks');
 
 	return (
-		<View className='z-10 flex-1 justify-start items-center gap-0 p-0 bg-white dark:bg-black h-full'>
-			<ScrollView
-				horizontal
-				contentContainerStyle={{ paddingHorizontal: 10 }}
-				showsHorizontalScrollIndicator={false}
-				className='w-full mt-3 mb-0 max-h-12'
-			>
-				{days.map((day, index) => (
-					<TouchableOpacity
-						key={index}
-						className='p-3 bg-blue-400 dark:bg-gray-50 rounded-full shadow-md mx-1.5 max-h-12'
-					>
-						<Text className='text-primary font-bold text-white dark:text-black'>{formatDate(day)}</Text>
-					</TouchableOpacity>
-				))}
-			</ScrollView>
-			{/*Main Content*/}
-			<ScrollView className='w-full h-full p-4' contentContainerStyle={{ padding: 10 }}
-			>
+		<View className='z-10 flex-1 justify-start gap-0 p-0 bg-white dark:bg-black h-full'>
+			{/*Tabs*/}
+			<View className="flex-row border-b border-gray-700 mb-4 mx-3">
+				<TouchableOpacity
+					className={`flex-row items-center pb-2 ${activeTab === 'My Tasks' ? 'border-b-2 border-blue-500' : ''}`}
+					onPress={() => setActiveTab('My Tasks')}
+				>
+					<Star className="w-4 h-4 mr-2 text-blue-500" />
+					<Text>My Tasks</Text>
+				</TouchableOpacity>
+				<TouchableOpacity
+					className={`flex-row items-center pb-2 ${activeTab === 'New list' ? 'border-b-2 border-blue-500' : ''}`}
+					onPress={() => setActiveTab('New list')}
+				>
+					<Plus className="w-4 h-4 mr-2" />
+					<Text>New list</Text>
+				</TouchableOpacity>
+			</View>
 
-			</ScrollView>
 			{/*Hovering Icon*/}
 			<TouchableOpacity
 				className='z-30 absolute bottom-8 right-8 rounded-full bg-blue-400 dark:bg-white h-[68px] w-[68px] flex items-center justify-center'

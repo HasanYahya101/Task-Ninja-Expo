@@ -11,6 +11,7 @@ import { useColorScheme } from '~/lib/useColorScheme';
 import { PortalHost } from '@rn-primitives/portal';
 import { ThemeToggle } from '~/components/ThemeToggle';
 import { ProfileButton } from '~/components/profileButton';
+import { MenuButton } from '~/components/menuButton';
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -70,8 +71,9 @@ export default function RootLayout() {
           name='index'
           options={{
             title: '',
-            headerRight: () => <ThemeToggle />,
-            headerLeft: () => <ProfileButton />,
+            headerRight: () => <ProfileButton />,
+            //headerLeft: () => <ThemeToggle />,
+            headerLeft: () => <MenuButton />,
             headerShadowVisible: false,
             headerBackTitleVisible: false,
           }}

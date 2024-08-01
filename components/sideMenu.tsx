@@ -21,7 +21,7 @@ export function ProfileButton() {
                     )}
                 >
                     <Avatar
-                        className='text-foreground h-12 w-12 ml-2 mt-2'
+                        className='text-foreground h-14 w-14 ml-2 mt-2'
                     >
                         <AvatarImage
                             src='https://github.com/HasanYahya101.png'

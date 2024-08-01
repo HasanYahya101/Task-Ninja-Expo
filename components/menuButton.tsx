@@ -5,8 +5,9 @@ import { useColorScheme } from '~/lib/useColorScheme';
 import { cn } from '~/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Text } from './ui/text';
+import { Menu } from '~/lib/icons/Menu';
 
-export function ProfileButton() {
+export function MenuButton() {
     return (
         <Pressable
             onPress={() => {
@@ -20,16 +21,7 @@ export function ProfileButton() {
                         pressed && 'opacity-70'
                     )}
                 >
-                    <Avatar
-                        className='text-foreground h-12 w-12 ml-2 mt-2'
-                    >
-                        <AvatarImage
-                            src='https://github.com/HasanYahya101.png'
-                        />
-                        <AvatarFallback>
-                            <Text>HY</Text>
-                        </AvatarFallback>
-                    </Avatar>
+                    <Menu className='text-black dark:text-white h-12 w-12 ml-2 mt-[16PX]' />
                 </View>
             )}
         </Pressable>
