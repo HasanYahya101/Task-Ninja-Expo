@@ -72,6 +72,8 @@ export default function RootLayout() {
             title: '',
             headerRight: () => <ThemeToggle />,
             headerLeft: () => <ProfileButton />,
+            headerShadowVisible: false,
+            headerBackTitleVisible: false,
           }}
         />
       </Stack>
