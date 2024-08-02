@@ -118,15 +118,21 @@ export default function Screen() {
 				<DialogContent className='max-w-[86vw]'
 				>
 					<DialogHeader>
-						<DialogTitle><Text>Add a new list</Text></DialogTitle>
+						<DialogTitle>
+							<Text>Add a new list</Text>
+						</DialogTitle>
 						<DialogClose />
 					</DialogHeader>
 					<DialogDescription>
 						<Text className='text-gray-500 dark:text-gray-400'>Create a new list to organize your tasks</Text>
 					</DialogDescription>
 					<DialogFooter>
-						<Button className='mr-2' variant='secondary'><Text>Cancel</Text></Button>
-						<Button><Text>Create</Text></Button>
+						<Button className='mr-2' variant='secondary'>
+							<Text>Cancel</Text>
+						</Button>
+						<Button>
+							<Text>Create</Text>
+						</Button>
 					</DialogFooter>
 				</DialogContent>
 			</Dialog>
