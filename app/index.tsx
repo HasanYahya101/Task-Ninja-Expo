@@ -31,18 +31,23 @@ export default function Screen() {
 			{/*Tabs*/}
 			<View className="flex-row border-b border-gray-400 mb-4 mx-0 mt-[22px]">
 				<TouchableOpacity
-					className={`ml-6 mr-2 flex-row items-center pb-2 ${activeTab === 'My Tasks' ? 'border-b-2 border-blue-500' : ''}`}
-					onPress={() => setActiveTab('My Tasks')}
+					className={`ml-6 mr-4 flex-row items-center pb-2 ${activeTab === 'Starred' ? 'border-b-2 border-blue-500' : ''}`}
+					onPress={() => setActiveTab('Starred')}
 				>
-					<Star className="w-4 h-4 mr-2 text-blue-500" />
-					<Text>My Tasks</Text>
+					<Star className={`w-4 h-4 ${activeTab === 'Starred' ? 'text-blue-500' : 'text-black'}`} />
 				</TouchableOpacity>
 				<TouchableOpacity
-					className={`ml-2 flex-row items-center pb-2 ${activeTab === 'New list' ? 'border-b-2 border-blue-500' : ''}`}
+					className={`ml-4 mr-4 flex-row items-center pb-2 ${activeTab === 'My Tasks' ? 'border-b-2 border-blue-500' : ''}`}
+					onPress={() => setActiveTab('My Tasks')}
+				>
+					<Text className={`text-[16px] ml-1 mr-1 ${activeTab === 'My Tasks' ? 'text-blue-500' : 'text-black'}`}>My Tasks</Text>
+				</TouchableOpacity>
+				<TouchableOpacity
+					className={`ml-4 mr-6 flex-row items-center pb-2 ${activeTab === 'New list' ? 'border-b-2 border-blue-500' : ''}`}
 					onPress={() => setActiveTab('New list')}
 				>
-					<Plus className="w-4 h-4 mr-2" />
-					<Text>New list</Text>
+					<Plus className={`w-4 h-4 mr-2 ${activeTab === 'New list' ? 'text-blue-500' : 'text-black'}`} />
+					<Text className={`text-[16px] mr-2 ${activeTab === 'New list' ? 'text-blue-500' : 'text-black'}`}>New list</Text>
 				</TouchableOpacity>
 			</View>
 
