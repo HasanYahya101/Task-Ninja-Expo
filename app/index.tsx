@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View } from 'react-native';
-import Animated, { FadeInUp, FadeOutDown, LayoutAnimationConfig } from 'react-native-reanimated';
+//import Animated, { FadeInUp, FadeOutDown, LayoutAnimationConfig } from 'react-native-reanimated';
 import { Info } from '~/lib/icons/Info';
 //import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
 import { Button } from '~/components/ui/button';
@@ -21,6 +21,7 @@ import { Trash2Icon } from '~/lib/icons/Trash2Icon';
 import { Checkbox } from '~/components/ui/checkbox';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
 import { Star } from '~/lib/icons/Star';
+import { useState, useRef, useEffect } from 'react';
 
 export default function Screen() {
 
