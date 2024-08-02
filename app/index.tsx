@@ -75,15 +75,7 @@ export default function Screen() {
 						onPress={() => handleTabPress('My Tasks')}
 						onLayout={onLayoutTab('My Tasks')}
 					>
-						<Text className={`text-[16px] ml-1 mr-1 ${activeTab === 'My Tasks' ? 'text-blue-500' : 'text-black'}`}>My Tasks</Text>
-					</TouchableOpacity>
-					<TouchableOpacity
-						className="ml-4 mr-6 flex-row items-center pb-2 relative"
-						onPress={() => handleTabPress('New list2')}
-						onLayout={onLayoutTab('New list2')}
-					>
-						<Plus className={`w-4 h-4 mr-2 ${activeTab === 'New list2' ? 'text-blue-500' : 'text-black'}`} />
-						<Text className={`text-[16px] mr-2 ${activeTab === 'New list2' ? 'text-blue-500' : 'text-black'}`}>New list2</Text>
+						<Text className={`text-[16px] ml-2 mr-2 ${activeTab === 'My Tasks' ? 'text-blue-500' : 'text-black'}`}>My Tasks</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
 						className="ml-4 mr-6 flex-row items-center pb-2 relative"
