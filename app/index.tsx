@@ -22,12 +22,23 @@ import { Checkbox } from '~/components/ui/checkbox';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
 import { Star } from '~/lib/icons/Star';
 import { useState, useRef, useEffect } from 'react';
+import {
+	Dialog,
+	DialogClose,
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from '~/components/ui/dialog';
 
 export default function Screen() {
 	const [activeTab, setActiveTab] = React.useState('My Tasks');
 	const [tabLayouts, setTabLayouts] = React.useState({});
 	const tabPosition = useSharedValue(0);
 	const tabWidth = useSharedValue(0);
+	const [dialogOpen, setDialogOpen] = React.useState(false);
 
 	React.useEffect(() => {
 		if (tabLayouts['My Tasks']) {
@@ -97,9 +108,28 @@ export default function Screen() {
 			</View>
 
 			{/* Hovering Icon */}
-			<TouchableOpacity className='z-30 absolute bottom-8 right-8 rounded-full bg-blue-400 dark:bg-white h-[68px] w-[68px] flex items-center justify-center'>
-				<Plus className='text-white dark:text-black' size={26} />
-			</TouchableOpacity>
+			<Dialog open={dialogOpen} onOpenChange={setDialogOpen} className='absolute bottom-8 right-8'
+			>
+				<TouchableOpacity className='z-30 rounded-full bg-blue-400 dark:bg-white h-[68px] w-[68px] flex items-center justify-center'
+					onPress={() => setDialogOpen(true)}
+				>
+					<Plus className='text-white dark:text-black' size={26} />
+				</TouchableOpacity>
+				<DialogContent className='max-w-[86vw]'
+				>
+					<DialogHeader>
+						<DialogTitle><Text>Add a new list</Text></DialogTitle>
+						<DialogClose />
+					</DialogHeader>
+					<DialogDescription>
+						<Text className='text-gray-500 dark:text-gray-400'>Create a new list to organize your tasks</Text>
+					</DialogDescription>
+					<DialogFooter>
+						<Button className='mr-2' variant='secondary'><Text>Cancel</Text></Button>
+						<Button><Text>Create</Text></Button>
+					</DialogFooter>
+				</DialogContent>
+			</Dialog>
 		</View>
 	);
 }
