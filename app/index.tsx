@@ -59,6 +59,9 @@ export default function Screen() {
 			{/* Tabs */}
 			<View className="flex-row border-b border-gray-400 mb-4 mx-0 mt-[22px] relative">
 				<ScrollView horizontal className='flex-row' showsHorizontalScrollIndicator={false}
+					style={{
+						bottom: -1,
+					}}
 				>
 					<TouchableOpacity
 						className="ml-6 mr-4 flex-row items-center pb-2 relative"
@@ -93,7 +96,7 @@ export default function Screen() {
 					<Animated.View style={[{
 						position: 'absolute',
 						bottom: -1,
-						height: 4,
+						height: 4.5,
 						borderTopLeftRadius: 4,
 						borderTopRightRadius: 4,
 						backgroundColor: '#3b82f6',
