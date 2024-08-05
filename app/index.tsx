@@ -1,37 +1,11 @@
 import * as React from 'react';
 import { View, Dimensions, PanResponder } from 'react-native';
-import Animated, { FadeInUp, FadeOutDown, LayoutAnimationConfig, useSharedValue, useAnimatedStyle, withTiming, withSpring } from 'react-native-reanimated';
-import { Info } from '~/lib/icons/Info';
-//import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
-import { Button } from '~/components/ui/button';
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from '~/components/ui/card';
-import { Progress } from '~/components/ui/progress';
-import { Text } from '~/components/ui/text';
-import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip';
-import { Plus } from '~/lib/icons/Plus';
+import Animated, { useSharedValue, useAnimatedStyle, withSpring, withTiming } from 'react-native-reanimated';
 import { TouchableOpacity, ScrollView } from 'react-native';
-import { Trash2Icon } from '~/lib/icons/Trash2Icon';
-import { Checkbox } from '~/components/ui/checkbox';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
+import { Plus } from '~/lib/icons/Plus';
 import { Star } from '~/lib/icons/Star';
+import { Text } from '~/components/ui/text';
 import { useState, useRef, useEffect } from 'react';
-import {
-	Dialog,
-	DialogClose,
-	DialogContent,
-	DialogDescription,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from '~/components/ui/dialog';
 
 const { height } = Dimensions.get('window');
 const DRAWER_HEIGHT = 400;
@@ -41,7 +15,8 @@ export default function Screen() {
 	const [tabLayouts, setTabLayouts] = React.useState({});
 	const tabPosition = useSharedValue(0);
 	const tabWidth = useSharedValue(0);
-	const [dialogOpen, setDialogOpen] = React.useState(false);
+	const [isOpen, setIsOpen] = useState(false);
+	const translateY = useSharedValue(DRAWER_HEIGHT);
 
 	React.useEffect(() => {
 		if (tabLayouts['My Tasks']) {
@@ -67,9 +42,6 @@ export default function Screen() {
 			width: tabWidth.value,
 		};
 	});
-
-	const [isOpen, setIsOpen] = useState(false);
-	const translateY = useSharedValue(DRAWER_HEIGHT);
 
 	const panResponder = useRef(
 		PanResponder.create({
@@ -113,7 +85,6 @@ export default function Screen() {
 			transform: [{ translateY: translateY.value }],
 		};
 	});
-
 
 	return (
 		<View className="z-10 flex-1 justify-start gap-0 p-0 bg-white dark:bg-black h-full">
@@ -169,11 +140,11 @@ export default function Screen() {
 				)}
 
 				<Animated.View
-					className={`absolute left-0 right-0 z-40 bottom-0 bg-white rounded-t-3xl shadow-none border-b border-t border-x border-gray-200 ${isOpen ? '' : ''}`}
+					className={`absolute left-0 right-0 z-40 bottom-0 bg-white rounded-t-3xl shadow-none border-b border-t border-x border-gray-200`}
 					style={[
 						{
 							height: DRAWER_HEIGHT,
-							bottom: -DRAWER_HEIGHT,
+							transform: [{ translateY: translateY.value }],
 						},
 						animatedStyles,
 					]}
