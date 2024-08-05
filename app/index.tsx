@@ -104,7 +104,7 @@ export default function Screen() {
 		setIsOpen(false);
 		translateY.value = withSpring(DRAWER_HEIGHT, {
 			damping: 20,
-			stiffness: 160,
+			stiffness: 170,
 		});
 	};
 
