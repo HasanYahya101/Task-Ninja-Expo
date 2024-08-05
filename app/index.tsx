@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { View } from 'react-native';
-import Animated, { FadeInUp, FadeOutDown, LayoutAnimationConfig, useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import { View, Dimensions, PanResponder } from 'react-native';
+import Animated, { FadeInUp, FadeOutDown, LayoutAnimationConfig, useSharedValue, useAnimatedStyle, withTiming, withSpring } from 'react-native-reanimated';
 import { Info } from '~/lib/icons/Info';
 //import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
 import { Button } from '~/components/ui/button';
@@ -32,6 +32,9 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '~/components/ui/dialog';
+
+const { height } = Dimensions.get('window');
+const DRAWER_HEIGHT = 300;
 
 export default function Screen() {
 	const [activeTab, setActiveTab] = React.useState('My Tasks');
@@ -66,41 +69,42 @@ export default function Screen() {
 	});
 
 	const [isOpen, setIsOpen] = useState(false);
-	const [startY, setStartY] = useState(0);
-	const [currentY, setCurrentY] = useState(0);
-	const drawerRef = useRef(null);
+	const translateY = useSharedValue(DRAWER_HEIGHT);
 
-	const drawerHeight = 300; // Fixed height for the drawer
+	const panResponder = useRef(
+		PanResponder.create({
+			onStartShouldSetPanResponder: () => true,
+			onPanResponderMove: (_, gestureState) => {
+				if (gestureState.dy > 0) {
+					translateY.value = gestureState.dy;
+				}
+			},
+			onPanResponderRelease: (_, gestureState) => {
+				if (gestureState.dy > DRAWER_HEIGHT / 3) {
+					closeDrawer();
+				} else {
+					translateY.value = withSpring(0);
+				}
+			},
+		})
+	).current;
 
-	const toggleDrawer = () => {
-		setIsOpen(!isOpen);
-		setCurrentY(0);
+	const openDrawer = () => {
+		setIsOpen(true);
+		translateY.value = withSpring(0);
 	};
 
-	const handleTouchStart = (e) => {
-		setStartY(e.touches[0].clientY);
+	const closeDrawer = () => {
+		setIsOpen(false);
+		translateY.value = withSpring(DRAWER_HEIGHT);
 	};
 
-	const handleTouchMove = (e) => {
-		const currentY = e.touches[0].clientY;
-		const diff = currentY - startY;
-		if (diff > 0) {
-			setCurrentY(diff);
-		}
-	};
+	const animatedStyles = useAnimatedStyle(() => {
+		return {
+			transform: [{ translateY: translateY.value - DRAWER_HEIGHT }],
+		};
+	});
 
-	const handleTouchEnd = () => {
-		if (currentY > drawerHeight / 3) {
-			setIsOpen(false);
-		}
-		setCurrentY(0);
-	};
-
-	useEffect(() => {
-		const drawer = drawerRef.current;
-		if (drawer) {
-		}
-	}, [startY]);
 
 	return (
 		<View className="z-10 flex-1 justify-start gap-0 p-0 bg-white dark:bg-black h-full">
@@ -146,29 +150,40 @@ export default function Screen() {
 			{/* Tasks */}
 
 			{/*Drawer*/}
-			<View
-				ref={drawerRef}
-				className={`fixed z-40 left-0 right-0 bottom-0 bg-white shadow-lg transition-all duration-300 ease-in-out transform rounded-t-3xl border-t border-x border-gray-300 ${isOpen ? '' : ''}`}
-				style={{
-					height: drawerHeight, // Provide as a number
-					bottom: -drawerHeight, // Provide as a number
-					transform: [{ translateY: isOpen ? -drawerHeight + currentY : 0 }],
-				}}
-			>
-				{/* Drag handle */}
-				<View onTouchMove={handleTouchMove} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}
-					className="w-16 h-1 bg-gray-300 rounded-full mx-auto mt-3"></View>
+			<View className="flex-1">
+				{isOpen && (
+					<TouchableOpacity
+						className="absolute inset-0 bg-gray-500 bg-opacity-50"
+						onPress={closeDrawer}
+						activeOpacity={1}
+					/>
+				)}
 
-				<View className="p-6">
-					<Text className="text-2xl font-bold mb-4">Drawer Content</Text>
-					<Text>This is the content of your drawer. You can add any elements here.</Text>
-					<Text className="mt-4">Drag down from the top to close this drawer.</Text>
-				</View>
+				<Animated.View
+					className={`absolute left-0 right-0 h-[40vh] z-40 bottom-0 bg-white rounded-t-3xl shadow-lg ${isOpen ? 'border-t border-x border-gray-300' : ''}`}
+					style={[
+						{
+							height: DRAWER_HEIGHT,
+							bottom: -DRAWER_HEIGHT,
+						},
+						animatedStyles,
+					]}
+					{...panResponder.panHandlers}
+				>
+					<View className="w-16 h-1 bg-gray-300 rounded-full mx-auto mt-3" />
+					<View className="p-6">
+						<Text className="text-2xl font-bold mb-4">Drawer Content</Text>
+						<Text className="mb-4">
+							This is the content of your drawer. You can add any elements here.
+						</Text>
+						<Text>Drag down from the top to close this drawer.</Text>
+					</View>
+				</Animated.View>
 			</View>
 
 			{/* Hovering Icon */}
 			<TouchableOpacity className='z-30 absolute bottom-8 right-8 rounded-full bg-blue-400 dark:bg-white h-[68px] w-[68px] flex items-center justify-center'
-				onPress={() => setIsOpen(true)}
+				onPress={openDrawer}
 			>
 				<Plus className='text-white dark:text-black' size={26} />
 			</TouchableOpacity>
