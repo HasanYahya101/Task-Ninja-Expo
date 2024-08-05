@@ -83,7 +83,10 @@ export default function Screen() {
 				if (gestureState.dy > DRAWER_HEIGHT / 3) {
 					closeDrawer();
 				} else {
-					translateY.value = withSpring(0);
+					translateY.value = withSpring(0, {
+						damping: 40,
+						stiffness: 210,
+					});
 				}
 			},
 		})
@@ -91,12 +94,18 @@ export default function Screen() {
 
 	const openDrawer = () => {
 		setIsOpen(true);
-		translateY.value = withSpring(0);
+		translateY.value = withSpring(0, {
+			damping: 15,
+			stiffness: 150,
+		});
 	};
 
 	const closeDrawer = () => {
 		setIsOpen(false);
-		translateY.value = withSpring(DRAWER_HEIGHT);
+		translateY.value = withSpring(DRAWER_HEIGHT, {
+			damping: 15,
+			stiffness: 150,
+		});
 	};
 
 	const animatedStyles = useAnimatedStyle(() => {
