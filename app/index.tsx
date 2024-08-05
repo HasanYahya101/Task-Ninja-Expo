@@ -34,7 +34,7 @@ import {
 } from '~/components/ui/dialog';
 
 const { height } = Dimensions.get('window');
-const DRAWER_HEIGHT = 300;
+const DRAWER_HEIGHT = 400;
 
 export default function Screen() {
 	const [activeTab, setActiveTab] = React.useState('My Tasks');
@@ -95,16 +95,16 @@ export default function Screen() {
 	const openDrawer = () => {
 		setIsOpen(true);
 		translateY.value = withSpring(0, {
-			damping: 15,
-			stiffness: 150,
+			damping: 30,
+			stiffness: 170,
 		});
 	};
 
 	const closeDrawer = () => {
 		setIsOpen(false);
 		translateY.value = withSpring(DRAWER_HEIGHT, {
-			damping: 15,
-			stiffness: 150,
+			damping: 20,
+			stiffness: 160,
 		});
 	};
 
