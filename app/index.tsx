@@ -148,16 +148,11 @@ export default function Screen() {
 			{/*Drawer*/}
 			<View
 				ref={drawerRef}
-				className={`fixed z-40 left-0 right-0 bottom-0 bg-white shadow-lg transition-all duration-300 ease-in-out transform rounded-t-3xl ${isOpen ? 'border-t border-x border-gray-300' : ''}`}
+				className={`fixed z-40 left-0 right-0 bottom-0 bg-white shadow-lg transition-all duration-300 ease-in-out transform rounded-t-3xl border-t border-x border-gray-300 ${isOpen ? '' : ''}`}
 				style={{
 					height: drawerHeight, // Provide as a number
 					bottom: -drawerHeight, // Provide as a number
 					transform: [{ translateY: isOpen ? -drawerHeight + currentY : 0 }],
-					shadowColor: "#000", // Shadow color
-					shadowOffset: { width: 0, height: 2 }, // Shadow offset
-					shadowOpacity: 0.25, // Shadow opacity
-					shadowRadius: 3.84, // Shadow radius
-					elevation: 5, // For Android
 				}}
 			>
 				{/* Drag handle */}
