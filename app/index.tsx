@@ -169,11 +169,11 @@ export default function Screen() {
 				)}
 
 				<Animated.View
-					className={`absolute left-0 right-0 h-[40vh] z-40 bottom-0 bg-white rounded-t-3xl shadow-none border-t border-x border-gray-200 ${isOpen ? '' : ''}`}
+					className={`absolute left-0 right-0 h-[40vh] z-40 bottom-0 bg-white rounded-t-3xl shadow-none border-b border-t border-x border-gray-200 ${isOpen ? '' : ''}`}
 					style={[
 						{
-							height: DRAWER_HEIGHT + 100,
-							bottom: -DRAWER_HEIGHT,
+							height: DRAWER_HEIGHT,
+							bottom: -DRAWER_HEIGHT - 10,
 						},
 						animatedStyles,
 					]}
