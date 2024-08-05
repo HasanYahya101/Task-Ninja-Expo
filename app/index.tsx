@@ -34,7 +34,7 @@ import {
 } from '~/components/ui/dialog';
 
 const { height } = Dimensions.get('window');
-const DRAWER_HEIGHT = 400;
+const DRAWER_HEIGHT = 300;
 
 export default function Screen() {
 	const [activeTab, setActiveTab] = React.useState('My Tasks');
@@ -172,7 +172,7 @@ export default function Screen() {
 					className={`absolute left-0 right-0 h-[40vh] z-40 bottom-0 bg-white rounded-t-3xl shadow-none border-t border-x border-gray-200 ${isOpen ? '' : ''}`}
 					style={[
 						{
-							height: DRAWER_HEIGHT,
+							height: DRAWER_HEIGHT + 100,
 							bottom: -DRAWER_HEIGHT,
 						},
 						animatedStyles,
