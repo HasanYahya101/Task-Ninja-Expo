@@ -19,9 +19,11 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '~/components/ui/select';
+import { Label } from '~/components/ui/label';
+import { Switch } from '~/components/ui/switch';
 
 const { height } = Dimensions.get('window');
-const DRAWER_HEIGHT = 400;
+const DRAWER_HEIGHT = 498;
 
 export default function Screen() {
 	const [activeTab, setActiveTab] = React.useState('My Tasks');
@@ -120,6 +122,8 @@ export default function Screen() {
 		setShowPicker(true);
 	};
 
+	const [starred, setStarred] = useState(false);
+
 	// create fake lists names
 	const lists = ['My Tasks', 'Work', 'Shopping', 'Home', 'School'];
 
@@ -201,7 +205,7 @@ export default function Screen() {
 					{...panResponder.panHandlers}
 				>
 					<View className="w-16 h-1 bg-gray-300 rounded-full mx-auto mt-3" />
-					<ScrollView className="p-6">
+					<View className="p-6">
 						<Text className="text-2xl font-bold mb-2">Add New Task</Text>
 						<Text className="mb-6">
 							Add new tasks to your list. You can also add a due date and assign to a list.
@@ -224,7 +228,7 @@ export default function Screen() {
 						<Text className="text-sm font-semibold mb-2">
 							Assign to List
 						</Text>
-						<Select>
+						<Select className='mb-4'>
 							<SelectTrigger>
 								<SelectValue placeholder='Select a list'
 								>
@@ -243,7 +247,19 @@ export default function Screen() {
 								</SelectGroup>
 							</SelectContent>
 						</Select>
-					</ScrollView>
+						<View className="flex-row items-center mb-6 mt-2 ml-2 mx-1">
+							<Text
+								className="flex-1 text-xl font-semibold"
+								nativeID="airplane-mode"
+							>
+								Star:
+							</Text>
+							<Switch className="ml-auto bg-blue-500" checked={starred} onCheckedChange={setStarred} nativeID="star" />
+						</View>
+						<Button className="w-full bg-blue-500" onPress={() => { }}>
+							<Text className="text-white">Add Task</Text>
+						</Button>
+					</View>
 				</Animated.View>
 			</View>
 
