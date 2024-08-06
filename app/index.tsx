@@ -32,6 +32,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '~/components/ui/dialog';
+import { Alert } from 'react-native';
 
 const { height } = Dimensions.get('window');
 const DRAWER_HEIGHT = 498;
@@ -206,6 +207,20 @@ export default function Screen() {
 	const [dialogOpen, setDialogOpen] = useState(false);
 	const [listInput, setListInput] = useState('');
 
+	const newListClicked = () => {
+		if (listInput === 'My Tasks' || Lists.includes(listInput)) {
+			// show error message
+			Alert.alert('Error', 'List name already exists. Please enter a different name.');
+			return;
+		}
+		else {
+			// add new list to the state
+			setLists((prevLists) => [...prevLists, listInput]);
+			setListInput('');
+			setDialogOpen(false);
+		}
+	};
+
 	return (
 		<View className="z-10 flex-1 justify-start gap-0 p-0 bg-white dark:bg-black h-full">
 			{/* Tabs */}
@@ -261,7 +276,7 @@ export default function Screen() {
 					<Input value={listInput} selectionColor="gray" className='mt-2' placeholder="Enter list name here..."
 						onChangeText={(text) => setListInput(text)}
 					/>
-					<Button className='bg-blue-500 mt-5' onPress={() => { setDialogOpen(false) }}>
+					<Button className='bg-blue-500 mt-5' onPress={newListClicked}>
 						<Text>Add Task</Text>
 					</Button>
 				</DialogContent>
