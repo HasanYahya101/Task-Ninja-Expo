@@ -9,6 +9,16 @@ import { useState, useRef, useEffect } from 'react';
 import { Input } from '~/components/ui/input';
 import { Button } from '~/components/ui/button';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue,
+} from '~/components/ui/select';
 
 const { height } = Dimensions.get('window');
 const DRAWER_HEIGHT = 400;
@@ -103,6 +113,9 @@ export default function Screen() {
 		setShowPicker(true);
 	};
 
+	// create fake lists names
+	const lists = ['My Tasks', 'Work', 'Shopping', 'Home', 'School'];
+
 	return (
 		<View className="z-10 flex-1 justify-start gap-0 p-0 bg-white dark:bg-black h-full">
 			{/* Tabs */}
@@ -190,6 +203,7 @@ export default function Screen() {
 						<Input placeholder="Enter task name here..." className="mb-4"
 							onChangeText={(text) => setInputText(text)}
 							value={inputText}
+							selectionColor="gray"
 						/>
 						<Text className="text-sm font-semibold mb-2">
 							Due Date
@@ -197,7 +211,7 @@ export default function Screen() {
 						<Button variant="outline" className="mb-4" onPress={() => { showTimePicker() }}
 						>
 							<Text>
-								{time.toDateString()}
+								{time.toLocaleDateString()}
 							</Text>
 						</Button>
 					</View>
