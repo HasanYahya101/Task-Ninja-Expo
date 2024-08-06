@@ -273,6 +273,13 @@ export default function Screen() {
 		setDialogOpen(true);
 	};
 
+	const deleteList = (listName: string) => {
+		// remove the list from the state
+		setLists((prevLists) => prevLists.filter((list) => list !== listName));
+		// remove all tasks from the list
+		setTasks((prevTasks) => prevTasks.filter((task) => task.listName !== listName));
+	};
+
 	return (
 		<View className="z-10 flex-1 justify-start gap-0 p-0 bg-white dark:bg-black h-full">
 			{/* Tabs */}
@@ -300,6 +307,28 @@ export default function Screen() {
 						<TouchableOpacity key={index}
 							className="ml-4 mr-4 flex-row items-center pb-2 relative mb-1.5"
 							onPress={() => handleTabPress(list)}
+							onLongPress={() => Alert.alert(
+								`Delete List`,
+								`Are you sure you want to delete this (${list}) list?.`,
+								[
+									{
+										text: 'Cancel',
+										onPress: () => console.log('Cancel Pressed'),
+										style: 'cancel',
+									},
+									{
+										text: 'Confirm',
+										onPress: () => {
+											deleteList(list);
+											if (activeTab === list) {
+												setActiveTab('My Tasks');
+											}
+										},
+										style: 'destructive',
+									},
+								],
+								{ cancelable: false }
+							)}
 							onLayout={onLayoutTab(list)}
 						>
 							<Text key={index} className={`text-[16px] ml-2 mr-2 ${activeTab === list ? 'text-blue-500' : 'text-black dark:text-white'}`}>
