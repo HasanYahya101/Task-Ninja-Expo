@@ -117,14 +117,15 @@ export default function Screen() {
 						<Plus className={`w-4 h-4 mr-2 ${activeTab === 'New list' ? 'text-blue-500' : 'text-black dark:text-white'}`} />
 						<Text className={`text-[16px] mr-2 ${activeTab === 'New list' ? 'text-blue-500' : 'text-black dark:text-white'}`}>New list</Text>
 					</TouchableOpacity>
-					<Animated.View style={[{
-						position: 'absolute',
-						bottom: -1,
-						height: 4.5,
-						borderTopLeftRadius: 4,
-						borderTopRightRadius: 4,
-						backgroundColor: '#3b82f6',
-					}, animatedStyle]} />
+					<Animated.View style={[
+						{
+							position: 'absolute',
+							bottom: -1,
+							height: 4.5,
+							borderTopLeftRadius: 4,
+							borderTopRightRadius: 4,
+							backgroundColor: '#3b82f6',
+						}, animatedStyle]} />
 				</ScrollView>
 			</View>
 			{/* Tasks */}
