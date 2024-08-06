@@ -65,7 +65,7 @@ export default function Screen() {
 	const insets = useSafeAreaInsets();
 	const contentInsets = {
 		top: insets.top,
-		bottom: insets.bottom,
+		bottom: insets.bottom + (insets.top * 3) + 10,
 		left: 12,
 		right: 12,
 	};
@@ -216,6 +216,16 @@ export default function Screen() {
 	const showTimePicker = () => {
 		setShowPicker(true);
 	};
+
+	useEffect(() => {
+		// when drawer closes, reset the input fields
+		if (!isOpen) {
+			setInputText('');
+			setTime(new Date());
+			setStarred(false);
+			setSelectedList('My Tasks');
+		}
+	}, [isOpen]);
 
 	const newListClicked = () => {
 		// remove spaces from all sides
