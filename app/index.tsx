@@ -139,11 +139,12 @@ export default function Screen() {
 	};
 
 	React.useEffect(() => {
-		if (tabLayouts[selectedList]) {
-			tabPosition.value = tabLayouts[selectedList].x;
-			tabWidth.value = tabLayouts[selectedList].width;
+		// Check if the tabLayouts has the current active tab
+		if (tabLayouts[activeTab]) {
+			tabPosition.value = withTiming(tabLayouts[activeTab].x, { duration: 300 });
+			tabWidth.value = withTiming(tabLayouts[activeTab].width, { duration: 300 });
 		}
-	}, [tabLayouts]);
+	}, [tabLayouts, activeTab]);
 
 	const handleTabPress = (tab) => {
 		setActiveTab(tab);
