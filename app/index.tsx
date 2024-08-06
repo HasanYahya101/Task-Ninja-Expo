@@ -30,6 +30,13 @@ export default function Screen() {
 	const tabWidth = useSharedValue(0);
 	const [isOpen, setIsOpen] = useState(false);
 	const translateY = useSharedValue(DRAWER_HEIGHT);
+	const insets = useSafeAreaInsets();
+	const contentInsets = {
+		top: insets.top,
+		bottom: insets.bottom,
+		left: 12,
+		right: 12,
+	};
 
 	React.useEffect(() => {
 		if (tabLayouts['My Tasks']) {
@@ -194,7 +201,7 @@ export default function Screen() {
 					{...panResponder.panHandlers}
 				>
 					<View className="w-16 h-1 bg-gray-300 rounded-full mx-auto mt-3" />
-					<View className="p-6">
+					<ScrollView className="p-6">
 						<Text className="text-2xl font-bold mb-2">Add New Task</Text>
 						<Text className="mb-6">
 							Add new tasks to your list. You can also add a due date and assign to a list.
@@ -214,7 +221,29 @@ export default function Screen() {
 								{time.toLocaleDateString()}
 							</Text>
 						</Button>
-					</View>
+						<Text className="text-sm font-semibold mb-2">
+							Assign to List
+						</Text>
+						<Select>
+							<SelectTrigger>
+								<SelectValue placeholder='Select a list'
+								>
+									{activeTab}
+								</SelectValue>
+							</SelectTrigger>
+							<SelectContent>
+								<SelectGroup insets={contentInsets}>
+									{lists.map((list) => (
+										<SelectItem key={list} onPress={() => setActiveTab(list)}>
+											<SelectLabel>
+												{list}
+											</SelectLabel>
+										</SelectItem>
+									))}
+								</SelectGroup>
+							</SelectContent>
+						</Select>
+					</ScrollView>
 				</Animated.View>
 			</View>
 
