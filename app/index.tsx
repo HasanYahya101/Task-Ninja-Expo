@@ -144,7 +144,7 @@ export default function Screen() {
 					style={[
 						{
 							height: DRAWER_HEIGHT,
-							transform: [{ translateY: translateY.value }],
+							transform: [{ translateY: translateY }],
 						},
 						animatedStyles,
 					]}
