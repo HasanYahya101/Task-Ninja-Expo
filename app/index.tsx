@@ -365,11 +365,11 @@ export default function Screen() {
 			</View>
 			{/* Tasks */}
 			<View className="flex-1">
-				{activeTab === 'Starred' ? (
+				{activeTab === 'Starred' && starredTasks.length === 0 ? (
 					<View className="mx-auto max-w-md text-center mt-[20vh]">
 						<Star className="mx-auto text-blue-500"
 							size={104}
-							strokeWidth={1.5}
+							strokeWidth={1.2}
 						/>
 						<Text className="mt-4 text-3xl justify-center text-center font-bold tracking-tight text-foreground sm:text-4xl dark:text-white">
 							No starred tasks
@@ -378,27 +378,23 @@ export default function Screen() {
 							Star your important tasks to keep them handy. Once you star a task, it will appear here.
 						</Text>
 					</View>
-				) : (
-					<ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-						{tasks
-							.filter((task) => task.listName === activeTab)
-							.map((task, index) => (
-								<View key={index} className="flex-row items-center border-b border-gray-300 p-4">
-									<View className="flex-1">
-										<Text className="text-lg">{task.description}</Text>
-										<Text className="text-sm text-gray-500">
-											{task.date.toLocaleDateString()}
-										</Text>
-									</View>
-									<Switch checked={task.starred} onCheckedChange={(checked) => {
-										const newTasks = [...tasks];
-										newTasks[index].starred = checked;
-										setTasks(newTasks);
-									}} />
+				) : activeTab === 'Starred' && starredTasks.length > 0 ? (
+					<ScrollView className="flex-1 px-8" showsVerticalScrollIndicator={false}>
+						{starredTasks.map((task, index) => (
+							<View key={index} className="flex-row items-center justify-between border-b border-gray-300 p-4">
+								<View className="flex-1">
+									<Text className="text-lg font-semibold">{task.description}</Text>
+									<Text className="text-sm text-muted-foreground dark:text-gray-400">{task.date.toLocaleDateString()}</Text>
 								</View>
-							))}
+								<Switch className={`${task.starred ? 'bg-blue-500' : ' bg-gray-300'}`} checked={task.starred} onCheckedChange={(checked) => {
+									const updatedTasks = [...starredTasks];
+									updatedTasks[index].starred = checked;
+									setStarredTasks(updatedTasks);
+								}} />
+							</View>
+						))}
 					</ScrollView>
-				)
+				) : null
 				}
 			</View>
 
