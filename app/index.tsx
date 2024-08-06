@@ -208,9 +208,17 @@ export default function Screen() {
 	const [listInput, setListInput] = useState('');
 
 	const newListClicked = () => {
-		if (listInput === 'My Tasks' || Lists.includes(listInput)) {
+		if (listInput === 'My Tasks' || Lists.includes(listInput) || listInput === '' || listInput === 'Starred' || listInput.length > 20 || listInput.length < 5) {
 			// show error message
-			Alert.alert('Error', 'List name already exists. Please enter a different name.');
+			setListInput('');
+			if (listInput === 'Starred' || listInput.length > 20 || listInput.length < 5) {
+				Alert.alert('Error', 'List name should be between 5 and 20 characters long.');
+				return;
+			}
+			else if (listInput === 'My Tasks' || Lists.includes(listInput) || listInput === '') {
+				Alert.alert('Error', 'List name already exists. Please enter a different name.');
+				return;
+			}
 			return;
 		}
 		else {
