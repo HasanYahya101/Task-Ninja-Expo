@@ -161,6 +161,8 @@ export default function Screen() {
 						</Text>
 						<Text className="text-sm font-semibold mb-2">Task Name</Text>
 						<Input placeholder="Enter task name here..." className="mb-4" />
+						<Text className="text-sm font-semibold mb-2">Due Date
+						</Text>
 						<Button variant="outline" className="mb-4" >
 							<Text>
 								Select Date
