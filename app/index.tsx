@@ -204,6 +204,7 @@ export default function Screen() {
 	};
 
 	const [dialogOpen, setDialogOpen] = useState(false);
+	const [listInput, setListInput] = useState('');
 
 	return (
 		<View className="z-10 flex-1 justify-start gap-0 p-0 bg-white dark:bg-black h-full">
@@ -257,8 +258,10 @@ export default function Screen() {
 						Add a new list to organize your tasks.
 					</DialogDescription>
 					<Text className="text-sm font-semibold mt-5">List Name</Text>
-					<Input selectionColor="gray" className='mt-2' placeholder="Enter list name here..." />
-					<Button className='bg-blue-500 mt-5' onPress={() => { }}>
+					<Input value={listInput} selectionColor="gray" className='mt-2' placeholder="Enter list name here..."
+						onChangeText={(text) => setListInput(text)}
+					/>
+					<Button className='bg-blue-500 mt-5' onPress={() => { setDialogOpen(false) }}>
 						<Text>Add Task</Text>
 					</Button>
 				</DialogContent>
@@ -302,6 +305,21 @@ export default function Screen() {
 						<Text className="mb-6">
 							Add new tasks to your list. You can also add a due date and assign to a list.
 						</Text>
+						<Text className="text-sm font-semibold mb-2">Task Name</Text>
+						<Input placeholder="Enter task name here..." className="mb-4"
+							onChangeText={(text) => setInputText(text)}
+							value={inputText}
+							selectionColor="gray"
+						/>
+						<Text className="text-sm font-semibold mb-2">
+							Due Date
+						</Text>
+						<Button variant="outline" className="mb-4" onPress={() => { showTimePicker() }}
+						>
+							<Text>
+								{time.toLocaleDateString()}
+							</Text>
+						</Button>
 						<Text className="text-sm font-semibold mb-2">
 							Assign to List
 						</Text>
@@ -328,21 +346,6 @@ export default function Screen() {
 								</SelectGroup>
 							</SelectContent>
 						</Select>
-						<Text className="text-sm font-semibold mb-2">Task Name</Text>
-						<Input placeholder="Enter task name here..." className="mb-4"
-							onChangeText={(text) => setInputText(text)}
-							value={inputText}
-							selectionColor="gray"
-						/>
-						<Text className="text-sm font-semibold mb-2">
-							Due Date
-						</Text>
-						<Button variant="outline" className="mb-4" onPress={() => { showTimePicker() }}
-						>
-							<Text>
-								{time.toLocaleDateString()}
-							</Text>
-						</Button>
 						<View className="flex-row items-center mb-6 mt-2 ml-2 mx-1">
 							<Text
 								className="flex-1 text-xl font-semibold"
