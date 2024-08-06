@@ -33,6 +33,7 @@ import {
 	DialogTrigger,
 } from '~/components/ui/dialog';
 import { Alert } from 'react-native';
+import { Value } from '@rn-primitives/select';
 
 const { height } = Dimensions.get('window');
 const DRAWER_HEIGHT = 498;
@@ -56,6 +57,12 @@ class Task {
 }
 
 export default function Screen() {
+
+	React.useEffect(() => {
+		// set theme as light
+		AsyncStorage.setItem('theme', 'light');
+	}, []);
+
 	const [activeTab, setActiveTab] = React.useState('My Tasks');
 	const [tabLayouts, setTabLayouts] = React.useState({});
 	const tabPosition = useSharedValue(0);
@@ -65,7 +72,8 @@ export default function Screen() {
 	const insets = useSafeAreaInsets();
 	const contentInsets = {
 		top: insets.top,
-		bottom: insets.bottom + (insets.top * 3) + 10,
+		//bottom: insets.bottom + (insets.top * 3) + 10,
+		bottom: insets.bottom,
 		left: 12,
 		right: 12,
 	};
@@ -257,6 +265,14 @@ export default function Screen() {
 		}
 	};
 
+	const handlenewListClick = () => {
+		if (Lists.length >= 10) {
+			Alert.alert('Error', 'You can only have 10 custom lists. Please delete a list to add a new one.');
+			return;
+		}
+		setDialogOpen(true);
+	};
+
 	return (
 		<View className="z-10 flex-1 justify-start gap-0 p-0 bg-white dark:bg-black h-full">
 			{/* Tabs */}
@@ -294,7 +310,7 @@ export default function Screen() {
 					}
 					<TouchableOpacity
 						className="ml-4 mr-6 flex-row items-center pb-2 relative mb-1.5"
-						onPress={() => { setDialogOpen(true) }}
+						onPress={handlenewListClick}
 					>
 						<Plus className={`w-4 h-4 mr-2 ${activeTab === 'New list' ? 'text-blue-500' : 'text-black dark:text-white'}`} />
 						<Text className={`text-[16px] mr-2 ${activeTab === 'New list' ? 'text-blue-500' : 'text-black dark:text-white'}`}>New list</Text>
@@ -397,15 +413,19 @@ export default function Screen() {
 									placeholder='Select a list'
 								/>
 							</SelectTrigger>
-							<SelectContent insets={contentInsets} className='w-[280px]'>
+							<SelectContent insets={contentInsets} className='w-[280px]'
+								side='top'
+							>
 								<SelectGroup>
 									<SelectLabel>Lists</SelectLabel>
 									<SelectItem label='My Tasks' value='My Tasks'>
-										My Tasks
+										<Text>My Tasks</Text>
 									</SelectItem>
 									{Lists.map((item, index) => (
 										<SelectItem key={index} label={item} value={item}>
-											{item}
+											<Text>
+												{item}
+											</Text>
 										</SelectItem>
 									))}
 								</SelectGroup>
