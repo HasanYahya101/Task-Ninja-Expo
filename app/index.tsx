@@ -88,6 +88,8 @@ export default function Screen() {
 		};
 	});
 
+	const [inputText, setInputText] = useState('');
+
 	return (
 		<View className="z-10 flex-1 justify-start gap-0 p-0 bg-white dark:bg-black h-full">
 			{/* Tabs */}
@@ -161,9 +163,11 @@ export default function Screen() {
 						</Text>
 						<Text className="text-sm font-semibold mb-2">Task Name</Text>
 						<Input placeholder="Enter task name here..." className="mb-4" />
-						<Text className="text-sm font-semibold mb-2">Due Date
+						<Text className="text-sm font-semibold mb-2">
+							Due Date
 						</Text>
-						<Button variant="outline" className="mb-4" >
+						<Button variant="outline" className="mb-4" onPress={() => { }}
+						>
 							<Text>
 								Select Date
 							</Text>
