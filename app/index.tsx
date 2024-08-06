@@ -6,6 +6,8 @@ import { Plus } from '~/lib/icons/Plus';
 import { Star } from '~/lib/icons/Star';
 import { Text } from '~/components/ui/text';
 import { useState, useRef, useEffect } from 'react';
+import { Input } from '~/components/ui/input';
+import { Button } from '~/components/ui/button';
 
 const { height } = Dimensions.get('window');
 const DRAWER_HEIGHT = 400;
@@ -153,11 +155,17 @@ export default function Screen() {
 				>
 					<View className="w-16 h-1 bg-gray-300 rounded-full mx-auto mt-3" />
 					<View className="p-6">
-						<Text className="text-2xl font-bold mb-4">Add New Task</Text>
-						<Text className="mb-4">
-							This is the content of your drawer. You can add any elements here.
+						<Text className="text-2xl font-bold mb-2">Add New Task</Text>
+						<Text className="mb-6">
+							Add new tasks to your list. You can also add a due date and assign to a list.
 						</Text>
-						<Text>Drag down from the top to close this drawer.</Text>
+						<Text className="text-sm font-semibold mb-2">Task Name</Text>
+						<Input placeholder="Enter task name here..." className="mb-4" />
+						<Button variant="outline" className="mb-4" >
+							<Text>
+								Select Date
+							</Text>
+						</Button>
 					</View>
 				</Animated.View>
 			</View>
