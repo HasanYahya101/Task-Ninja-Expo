@@ -22,6 +22,16 @@ import {
 import { Label } from '~/components/ui/label';
 import { Switch } from '~/components/ui/switch';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+	Dialog,
+	DialogClose,
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from '~/components/ui/dialog';
 
 const { height } = Dimensions.get('window');
 const DRAWER_HEIGHT = 498;
@@ -193,6 +203,8 @@ export default function Screen() {
 		_setTasks_([newTask]);
 	};
 
+	const [dialogOpen, setDialogOpen] = useState(false);
+
 	return (
 		<View className="z-10 flex-1 justify-start gap-0 p-0 bg-white dark:bg-black h-full">
 			{/* Tabs */}
@@ -218,8 +230,7 @@ export default function Screen() {
 					</TouchableOpacity>
 					<TouchableOpacity
 						className="ml-4 mr-6 flex-row items-center pb-2 relative mb-1.5"
-						onPress={() => handleTabPress('New list')}
-						onLayout={onLayoutTab('New list')}
+						onPress={() => { setDialogOpen(true) }}
 					>
 						<Plus className={`w-4 h-4 mr-2 ${activeTab === 'New list' ? 'text-blue-500' : 'text-black dark:text-white'}`} />
 						<Text className={`text-[16px] mr-2 ${activeTab === 'New list' ? 'text-blue-500' : 'text-black dark:text-white'}`}>New list</Text>
@@ -237,6 +248,20 @@ export default function Screen() {
 			</View>
 			{/* Tasks */}
 
+			{/*Dialog*/}
+			<Dialog open={dialogOpen} onOpenChange={setDialogOpen}
+			>
+				<DialogContent>
+					<DialogTitle>Add New Task</DialogTitle>
+					<DialogDescription>
+						Add new tasks to your list. You can also add a due date and assign to a list.
+					</DialogDescription>
+					<Input placeholder="Enter task name here..." />
+					<Button onPress={() => { }}>
+						<Text>Add Task</Text>
+					</Button>
+				</DialogContent>
+			</Dialog>
 			{/*Time Picker*/}
 			{showPicker && (
 				<DateTimePicker
