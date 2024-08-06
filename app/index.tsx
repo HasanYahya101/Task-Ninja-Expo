@@ -21,9 +21,19 @@ import {
 } from '~/components/ui/select';
 import { Label } from '~/components/ui/label';
 import { Switch } from '~/components/ui/switch';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { height } = Dimensions.get('window');
 const DRAWER_HEIGHT = 498;
+
+class Task {
+	constructor(description: String, date: Date, starred: Boolean, listName: String) {
+		this.description = description;
+		this.date = date;
+		this.starred = starred;
+		this.listName = listName;
+	}
+}
 
 export default function Screen() {
 	const [activeTab, setActiveTab] = React.useState('My Tasks');
@@ -38,6 +48,33 @@ export default function Screen() {
 		bottom: insets.bottom,
 		left: 12,
 		right: 12,
+	};
+	const [tasks, setTasks] = useState([]);
+
+	const saveTask = async (task: Task) => {
+		try {
+			// Retrieve existing tasks, or initialize as empty array
+			const existingTasks = await AsyncStorage.getItem('tasks');
+			const tasks = existingTasks ? JSON.parse(existingTasks) : [];
+
+			// Add new task
+			tasks.push(task);
+
+			// Save updated task list
+			await AsyncStorage.setItem('tasks', JSON.stringify(tasks));
+		} catch (error) {
+			console.error('Error saving task:', error);
+		}
+	};
+
+	const getTasks = async () => {
+		try {
+			const existingTasks = await AsyncStorage.getItem('tasks');
+			return existingTasks ? JSON.parse(existingTasks) : []; // Return empty array if no tasks
+		} catch (error) {
+			console.error('Error retrieving tasks:', error);
+			return []; // Return empty array on error
+		}
 	};
 
 	React.useEffect(() => {
