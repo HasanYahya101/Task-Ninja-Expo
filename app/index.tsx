@@ -176,7 +176,7 @@ export default function Screen() {
 				<DateTimePicker
 					testID="dateTimePicker"
 					value={time}
-					mode="time"
+					mode="date"
 					is24Hour={true}
 					display="default"
 					onChange={onChange}
