@@ -254,7 +254,7 @@ export default function Screen() {
 							>
 								Star:
 							</Text>
-							<Switch className="ml-auto bg-blue-500" checked={starred} onCheckedChange={setStarred} nativeID="star" />
+							<Switch className={`${starred ? 'bg-blue-500' : ' bg-gray-300'} ml-auto`} checked={starred} onCheckedChange={setStarred} nativeID="star" />
 						</View>
 						<Button className="w-full bg-blue-500" onPress={() => { }}>
 							<Text className="text-white">Add Task</Text>
