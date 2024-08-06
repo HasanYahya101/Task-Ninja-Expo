@@ -85,6 +85,18 @@ export default function Screen() {
 	const isInitialMountTasks = useRef(true);
 	const isInitialMountLists = useRef(true);
 
+	/*const clearStorage = async () => {
+		try {
+			await AsyncStorage.clear();
+			console.log('AsyncStorage cleared!');
+		} catch (error) {
+			console.error('Failed to clear AsyncStorage:', error);
+		}
+	};
+
+	// clearStorage
+	clearStorage();*/
+
 	const loadData = async () => {
 		const tasksData = await AsyncStorage.getItem('tasks');
 		const listsData = await AsyncStorage.getItem('lists');
@@ -205,26 +217,28 @@ export default function Screen() {
 	};
 
 	const newListClicked = () => {
-		if (listInput === 'My Tasks' || Lists.includes(listInput) || listInput === '' || listInput === 'Starred' || listInput.length > 20 || listInput.length < 5) {
+		// remove spaces from all sides
+		const copyListInput = listInput.trim();
+		if (copyListInput === 'My Tasks' || Lists.includes(copyListInput) || copyListInput === '' || copyListInput === 'Starred' || copyListInput.length > 20 || copyListInput.length < 5) {
 			// show error message
-			setListInput('');
-			if (listInput === '') {
+			if (copyListInput === '') {
 				Alert.alert('Error', 'List name cannot be empty.');
 				return;
 			}
-			else if (listInput === 'Starred' || listInput.length > 20 || listInput.length < 5) {
+			else if (copyListInput === 'Starred' || copyListInput.length > 20 || copyListInput.length < 5) {
 				Alert.alert('Error', 'List name should be between 5 and 20 characters long.');
 				return;
 			}
-			else if (listInput === 'My Tasks' || Lists.includes(listInput)) {
+			else if (copyListInput === 'My Tasks' || Lists.includes(copyListInput)) {
 				Alert.alert('Error', 'List name already exists. Please enter a different name.');
 				return;
 			}
+			setListInput('');
 			return;
 		}
 		else {
 			// add new list to the state
-			setLists((prevLists) => [...prevLists, listInput]);
+			setLists((prevLists) => [...prevLists, copyListInput]);
 			//setSelectedList('My Tasks');
 			setListInput('');
 			setDialogOpen(false);

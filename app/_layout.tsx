@@ -35,6 +35,11 @@ export default function RootLayout() {
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
 
   React.useEffect(() => {
+    // set theme as light
+    setColorScheme('light');
+  }, []);
+
+  React.useEffect(() => {
     (async () => {
       const theme = await AsyncStorage.getItem('theme');
       if (Platform.OS === 'web') {
