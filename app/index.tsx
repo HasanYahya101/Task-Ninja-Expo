@@ -85,6 +85,21 @@ export default function Screen() {
 	const isInitialMountTasks = useRef(true);
 	const isInitialMountLists = useRef(true);
 
+	const loadData = async () => {
+		const tasksData = await AsyncStorage.getItem('tasks');
+		const listsData = await AsyncStorage.getItem('lists');
+		if (tasksData) {
+			setTasks(JSON.parse(tasksData).map((task: Task) => Task.fromJson(task)));
+		}
+		if (listsData) {
+			setLists(JSON.parse(listsData));
+		}
+	}
+
+	useEffect(() => {
+		loadData();
+	}, []);
+
 	useEffect(() => {
 		if (isInitialMountTasks.current) {
 			isInitialMountTasks.current = false;
@@ -240,6 +255,18 @@ export default function Screen() {
 					>
 						<Text className={`text-[16px] ml-2 mr-2 ${activeTab === 'My Tasks' ? 'text-blue-500' : 'text-black dark:text-white'}`}>My Tasks</Text>
 					</TouchableOpacity>
+					{Lists.map((list, index) => (
+						<TouchableOpacity
+							className="ml-4 mr-4 flex-row items-center pb-2 relative mb-1.5"
+							onPress={() => handleTabPress(list)}
+							onLayout={onLayoutTab(list)}
+						>
+							<Text className={`text-[16px] ml-2 mr-2 ${activeTab === list ? 'text-blue-500' : 'text-black dark:text-white'}`}>
+								{list}
+							</Text>
+						</TouchableOpacity>
+					))
+					}
 					<TouchableOpacity
 						className="ml-4 mr-6 flex-row items-center pb-2 relative mb-1.5"
 						onPress={() => { setDialogOpen(true) }}
@@ -278,16 +305,18 @@ export default function Screen() {
 				</DialogContent>
 			</Dialog>
 			{/*Time Picker*/}
-			{showPicker && (
-				<DateTimePicker
-					testID="dateTimePicker"
-					value={time}
-					mode="date"
-					is24Hour={true}
-					display="default"
-					onChange={onChange}
-				/>
-			)}
+			{
+				showPicker && (
+					<DateTimePicker
+						testID="dateTimePicker"
+						value={time}
+						mode="date"
+						is24Hour={true}
+						display="default"
+						onChange={onChange}
+					/>
+				)
+			}
 
 			{/*Drawer*/}
 			<View className="flex-1">
