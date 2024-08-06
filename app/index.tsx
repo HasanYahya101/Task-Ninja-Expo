@@ -124,13 +124,12 @@ export default function Screen() {
 		setInputText('');
 		setTime(new Date());
 		setStarred(false);
-		setSelectedList('My Tasks');
 	};
 
 	React.useEffect(() => {
-		if (tabLayouts['My Tasks']) {
-			tabPosition.value = tabLayouts['My Tasks'].x;
-			tabWidth.value = tabLayouts['My Tasks'].width;
+		if (tabLayouts[selectedList]) {
+			tabPosition.value = tabLayouts[selectedList].x;
+			tabWidth.value = tabLayouts[selectedList].width;
 		}
 	}, [tabLayouts]);
 
@@ -226,6 +225,7 @@ export default function Screen() {
 		else {
 			// add new list to the state
 			setLists((prevLists) => [...prevLists, listInput]);
+			//setSelectedList('My Tasks');
 			setListInput('');
 			setDialogOpen(false);
 			return;
@@ -256,12 +256,12 @@ export default function Screen() {
 						<Text className={`text-[16px] ml-2 mr-2 ${activeTab === 'My Tasks' ? 'text-blue-500' : 'text-black dark:text-white'}`}>My Tasks</Text>
 					</TouchableOpacity>
 					{Lists.map((list, index) => (
-						<TouchableOpacity
+						<TouchableOpacity key={index}
 							className="ml-4 mr-4 flex-row items-center pb-2 relative mb-1.5"
 							onPress={() => handleTabPress(list)}
 							onLayout={onLayoutTab(list)}
 						>
-							<Text className={`text-[16px] ml-2 mr-2 ${activeTab === list ? 'text-blue-500' : 'text-black dark:text-white'}`}>
+							<Text key={index} className={`text-[16px] ml-2 mr-2 ${activeTab === list ? 'text-blue-500' : 'text-black dark:text-white'}`}>
 								{list}
 							</Text>
 						</TouchableOpacity>
