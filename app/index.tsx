@@ -8,6 +8,7 @@ import { Text } from '~/components/ui/text';
 import { useState, useRef, useEffect } from 'react';
 import { Input } from '~/components/ui/input';
 import { Button } from '~/components/ui/button';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const { height } = Dimensions.get('window');
 const DRAWER_HEIGHT = 400;
@@ -89,6 +90,18 @@ export default function Screen() {
 	});
 
 	const [inputText, setInputText] = useState('');
+	const [time, setTime] = useState(new Date());
+	const [showPicker, setShowPicker] = useState(false);
+
+	const onChange = (event, selectedTime) => {
+		const currentTime = selectedTime || time;
+		setShowPicker(false);
+		setTime(currentTime);
+	};
+
+	const showTimePicker = () => {
+		setShowPicker(true);
+	};
 
 	return (
 		<View className="z-10 flex-1 justify-start gap-0 p-0 bg-white dark:bg-black h-full">
@@ -134,6 +147,18 @@ export default function Screen() {
 			</View>
 			{/* Tasks */}
 
+			{/*Time Picker*/}
+			{showPicker && (
+				<DateTimePicker
+					testID="dateTimePicker"
+					value={time}
+					mode="time"
+					is24Hour={true}
+					display="default"
+					onChange={onChange}
+				/>
+			)}
+
 			{/*Drawer*/}
 			<View className="flex-1">
 				{isOpen && (
@@ -162,14 +187,17 @@ export default function Screen() {
 							Add new tasks to your list. You can also add a due date and assign to a list.
 						</Text>
 						<Text className="text-sm font-semibold mb-2">Task Name</Text>
-						<Input placeholder="Enter task name here..." className="mb-4" />
+						<Input placeholder="Enter task name here..." className="mb-4"
+							onChangeText={(text) => setInputText(text)}
+							value={inputText}
+						/>
 						<Text className="text-sm font-semibold mb-2">
 							Due Date
 						</Text>
-						<Button variant="outline" className="mb-4" onPress={() => { }}
+						<Button variant="outline" className="mb-4" onPress={() => { showTimePicker() }}
 						>
 							<Text>
-								Select Date
+								{time.toDateString()}
 							</Text>
 						</Button>
 					</View>
