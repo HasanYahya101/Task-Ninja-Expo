@@ -251,13 +251,14 @@ export default function Screen() {
 			{/*Dialog*/}
 			<Dialog open={dialogOpen} onOpenChange={setDialogOpen}
 			>
-				<DialogContent>
-					<DialogTitle>Add New Task</DialogTitle>
-					<DialogDescription>
-						Add new tasks to your list. You can also add a due date and assign to a list.
+				<DialogContent className='w-[80vw] gap-0'>
+					<DialogTitle>Add New List</DialogTitle>
+					<DialogDescription className='mt-1.5'>
+						Add a new list to organize your tasks.
 					</DialogDescription>
-					<Input placeholder="Enter task name here..." />
-					<Button onPress={() => { }}>
+					<Text className="text-sm font-semibold mt-5">List Name</Text>
+					<Input selectionColor="gray" className='mt-2' placeholder="Enter list name here..." />
+					<Button className='bg-blue-500 mt-5' onPress={() => { }}>
 						<Text>Add Task</Text>
 					</Button>
 				</DialogContent>
