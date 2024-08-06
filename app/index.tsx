@@ -153,7 +153,7 @@ export default function Screen() {
 				>
 					<View className="w-16 h-1 bg-gray-300 rounded-full mx-auto mt-3" />
 					<View className="p-6">
-						<Text className="text-2xl font-bold mb-4">Drawer Content</Text>
+						<Text className="text-2xl font-bold mb-4">Add New Task</Text>
 						<Text className="mb-4">
 							This is the content of your drawer. You can add any elements here.
 						</Text>
