@@ -43,7 +43,8 @@ class Task {
 		public description: string,
 		public date: Date,
 		public starred: boolean,
-		public listName: string
+		public listName: string,
+		public completed: boolean,
 	) { }
 
 	static fromJson(json: any): Task {
@@ -137,7 +138,7 @@ export default function Screen() {
 	}, [Lists]);
 
 	const addTask = () => {
-		const newTask = new Task(inputText, time, starred, selectedList);
+		const newTask = new Task(inputText, time, starred, selectedList, false);
 		// merge new task with existing tasks
 		setTasks([...tasks, newTask]);
 		// clear input fields
