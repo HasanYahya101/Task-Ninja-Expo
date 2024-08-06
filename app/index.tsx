@@ -89,7 +89,7 @@ export default function Screen() {
 	return (
 		<View className="z-10 flex-1 justify-start gap-0 p-0 bg-white dark:bg-black h-full">
 			{/* Tabs */}
-			<View className="flex-row border-b border-gray-400 mb-4 mx-0 mt-[22px] relative">
+			<View className="flex-row border-b border-gray-400 mb-4 mx-0 mt-[28px] relative">
 				<ScrollView horizontal className='flex-row' showsHorizontalScrollIndicator={false}
 					style={{
 						bottom: -1,
