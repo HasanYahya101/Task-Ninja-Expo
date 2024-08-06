@@ -72,6 +72,35 @@ export default function Screen() {
 	const [tasks, setTasks] = useState([] as Task[]);
 	const [Lists, setLists] = useState([] as string[]);
 
+	const [starred, setStarred] = useState(false);
+	const [selectedList, setSelectedList] = useState('My Tasks');
+
+	const [dialogOpen, setDialogOpen] = useState(false);
+	const [listInput, setListInput] = useState('');
+
+	const [inputText, setInputText] = useState('');
+	const [time, setTime] = useState(new Date());
+	const [showPicker, setShowPicker] = useState(false);
+
+	const isInitialMountTasks = useRef(true);
+	const isInitialMountLists = useRef(true);
+
+	useEffect(() => {
+		if (isInitialMountTasks.current) {
+			isInitialMountTasks.current = false;
+		} else {
+			AsyncStorage.setItem('tasks', JSON.stringify(tasks));
+		}
+	}, [tasks]);
+
+	useEffect(() => {
+		if (isInitialMountLists.current) {
+			isInitialMountLists.current = false;
+		} else {
+			AsyncStorage.setItem('lists', JSON.stringify(Lists));
+		}
+	}, [Lists]);
+
 	const addTask = () => {
 		const newTask = new Task(inputText, time, starred, selectedList);
 		// merge new task with existing tasks
@@ -151,10 +180,6 @@ export default function Screen() {
 		};
 	});
 
-	const [inputText, setInputText] = useState('');
-	const [time, setTime] = useState(new Date());
-	const [showPicker, setShowPicker] = useState(false);
-
 	const onChange = (event, selectedTime) => {
 		const currentTime = selectedTime || time;
 		setShowPicker(false);
@@ -164,12 +189,6 @@ export default function Screen() {
 	const showTimePicker = () => {
 		setShowPicker(true);
 	};
-
-	const [starred, setStarred] = useState(false);
-	const [selectedList, setSelectedList] = useState('My Tasks');
-
-	const [dialogOpen, setDialogOpen] = useState(false);
-	const [listInput, setListInput] = useState('');
 
 	const newListClicked = () => {
 		if (listInput === 'My Tasks' || Lists.includes(listInput) || listInput === '' || listInput === 'Starred' || listInput.length > 20 || listInput.length < 5) {
