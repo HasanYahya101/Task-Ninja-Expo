@@ -281,6 +281,13 @@ export default function Screen() {
 		setTasks((prevTasks) => prevTasks.filter((task) => task.listName !== listName));
 	};
 
+	const [starredTasks, setStarredTasks] = useState([] as Task[]);
+
+	useEffect(() => {
+		// if tasks change filter and set starred tasks
+		setStarredTasks(tasks.filter((task) => task.starred));
+	}, [tasks]);
+
 	return (
 		<View className="z-10 flex-1 justify-start gap-0 p-0 bg-white dark:bg-black h-full">
 			{/* Tabs */}
@@ -357,6 +364,43 @@ export default function Screen() {
 				</ScrollView>
 			</View>
 			{/* Tasks */}
+			<View className="flex-1">
+				{activeTab === 'Starred' ? (
+					<View className="mx-auto max-w-md text-center mt-[20vh]">
+						<Star className="mx-auto text-blue-500"
+							size={104}
+							strokeWidth={1.5}
+						/>
+						<Text className="mt-4 text-3xl justify-center text-center font-bold tracking-tight text-foreground sm:text-4xl dark:text-white">
+							No starred tasks
+						</Text>
+						<Text className="mt-4 text-center mx-10 text-muted-foreground dark:text-gray-400">
+							Star your important tasks to keep them handy. Once you star a task, it will appear here.
+						</Text>
+					</View>
+				) : (
+					<ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+						{tasks
+							.filter((task) => task.listName === activeTab)
+							.map((task, index) => (
+								<View key={index} className="flex-row items-center border-b border-gray-300 p-4">
+									<View className="flex-1">
+										<Text className="text-lg">{task.description}</Text>
+										<Text className="text-sm text-gray-500">
+											{task.date.toLocaleDateString()}
+										</Text>
+									</View>
+									<Switch checked={task.starred} onCheckedChange={(checked) => {
+										const newTasks = [...tasks];
+										newTasks[index].starred = checked;
+										setTasks(newTasks);
+									}} />
+								</View>
+							))}
+					</ScrollView>
+				)
+				}
+			</View>
 
 			{/*Dialog*/}
 			<Dialog open={dialogOpen} onOpenChange={setDialogOpen}
