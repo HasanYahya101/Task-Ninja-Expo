@@ -72,42 +72,15 @@ export default function Screen() {
 	const [tasks, setTasks] = useState([] as Task[]);
 	const [Lists, setLists] = useState([] as string[]);
 
-	const getTasks = async () => {
-		try {
-			const tasksJson = await AsyncStorage.getItem('tasks');
-			const tasks: Task[] = tasksJson
-				? JSON.parse(tasksJson).map((task: any) => Task.fromJson(task))
-				: [];
-
-			setTasks(tasks);
-		} catch (error) {
-			console.error('Error getting tasks:', error);
-		}
-	};
-
-	const saveTask = async (newTasks: Task[]) => {
-		try {
-			const existingTasksJson = await AsyncStorage.getItem('tasks');
-			const existingTasks: Task[] = existingTasksJson
-				? JSON.parse(existingTasksJson).map((task: any) => Task.fromJson(task))
-				: [];
-
-			// Merge new tasks with existing tasks
-			const updatedTasks = [...existingTasks, ...newTasks];
-
-			// Save updated task list
-			await AsyncStorage.setItem('tasks', JSON.stringify(updatedTasks));
-		} catch (error) {
-			console.error('Error saving task:', error);
-		}
-	};
-
-	const _setTasks_ = async (newTasks: Task[]) => {
-		// set new tasks along with existing in the state
-		setTasks((prevTasks) => [...prevTasks, ...newTasks]);
-
-		// save new tasks to async storage
-		saveTask(newTasks);
+	const addTask = () => {
+		const newTask = new Task(inputText, time, starred, selectedList);
+		// merge new task with existing tasks
+		setTasks([...tasks, newTask]);
+		// clear input fields
+		setInputText('');
+		setTime(new Date());
+		setStarred(false);
+		setSelectedList('My Tasks');
 	};
 
 	React.useEffect(() => {
@@ -194,15 +167,6 @@ export default function Screen() {
 
 	const [starred, setStarred] = useState(false);
 	const [selectedList, setSelectedList] = useState('My Tasks');
-
-	const addTask = () => {
-		const newTask = new Task(inputText, time, starred, selectedList);
-		setInputText('');
-		setTime(new Date());
-		setStarred(false);
-		setSelectedList('My Tasks');
-		_setTasks_([newTask]);
-	};
 
 	const [dialogOpen, setDialogOpen] = useState(false);
 	const [listInput, setListInput] = useState('');
@@ -383,7 +347,7 @@ export default function Screen() {
 							</Text>
 							<Switch className={`${starred ? 'bg-blue-500' : ' bg-gray-300'} ml-auto`} checked={starred} onCheckedChange={setStarred} nativeID="star" />
 						</View>
-						<Button className="w-full bg-blue-500" onPress={() => { }}>
+						<Button className="w-full bg-blue-500" onPress={addTask}>
 							<Text className="text-white">Add Task</Text>
 						</Button>
 					</View>
