@@ -230,6 +230,7 @@ export default function Screen() {
 			setLists((prevLists) => [...prevLists, listInput]);
 			setListInput('');
 			setDialogOpen(false);
+			return;
 		}
 	};
 
