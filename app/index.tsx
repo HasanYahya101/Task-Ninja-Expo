@@ -27,11 +27,20 @@ const { height } = Dimensions.get('window');
 const DRAWER_HEIGHT = 498;
 
 class Task {
-	constructor(description: String, date: Date, starred: Boolean, listName: String) {
-		this.description = description;
-		this.date = date;
-		this.starred = starred;
-		this.listName = listName;
+	constructor(
+		public description: string,
+		public date: Date,
+		public starred: boolean,
+		public listName: string
+	) { }
+
+	static fromJson(json: any): Task {
+		return new Task(
+			json.description,
+			new Date(json.date),
+			json.starred,
+			json.listName
+		);
 	}
 }
 
@@ -49,32 +58,45 @@ export default function Screen() {
 		left: 12,
 		right: 12,
 	};
-	const [tasks, setTasks] = useState([]);
+	const [tasks, setTasks] = useState([] as Task[]);
+	const [Lists, setLists] = useState([] as string[]);
 
-	const saveTask = async (task: Task) => {
+	const getTasks = async () => {
 		try {
-			// Retrieve existing tasks, or initialize as empty array
-			const existingTasks = await AsyncStorage.getItem('tasks');
-			const tasks = existingTasks ? JSON.parse(existingTasks) : [];
+			const tasksJson = await AsyncStorage.getItem('tasks');
+			const tasks: Task[] = tasksJson
+				? JSON.parse(tasksJson).map((task: any) => Task.fromJson(task))
+				: [];
 
-			// Add new task
-			tasks.push(task);
+			setTasks(tasks);
+		} catch (error) {
+			console.error('Error getting tasks:', error);
+		}
+	};
+
+	const saveTask = async (newTasks: Task[]) => {
+		try {
+			const existingTasksJson = await AsyncStorage.getItem('tasks');
+			const existingTasks: Task[] = existingTasksJson
+				? JSON.parse(existingTasksJson).map((task: any) => Task.fromJson(task))
+				: [];
+
+			// Merge new tasks with existing tasks
+			const updatedTasks = [...existingTasks, ...newTasks];
 
 			// Save updated task list
-			await AsyncStorage.setItem('tasks', JSON.stringify(tasks));
+			await AsyncStorage.setItem('tasks', JSON.stringify(updatedTasks));
 		} catch (error) {
 			console.error('Error saving task:', error);
 		}
 	};
 
-	const getTasks = async () => {
-		try {
-			const existingTasks = await AsyncStorage.getItem('tasks');
-			return existingTasks ? JSON.parse(existingTasks) : []; // Return empty array if no tasks
-		} catch (error) {
-			console.error('Error retrieving tasks:', error);
-			return []; // Return empty array on error
-		}
+	const _setTasks_ = async (newTasks: Task[]) => {
+		// set new tasks along with existing in the state
+		setTasks((prevTasks) => [...prevTasks, ...newTasks]);
+
+		// save new tasks to async storage
+		saveTask(newTasks);
 	};
 
 	React.useEffect(() => {
@@ -160,9 +182,16 @@ export default function Screen() {
 	};
 
 	const [starred, setStarred] = useState(false);
+	const [selectedList, setSelectedList] = useState('My Tasks');
 
-	// create fake lists names
-	const lists = ['My Tasks', 'Work', 'Shopping', 'Home', 'School'];
+	const addTask = () => {
+		const newTask = new Task(inputText, time, starred, selectedList);
+		setInputText('');
+		setTime(new Date());
+		setStarred(false);
+		setSelectedList('My Tasks');
+		_setTasks_([newTask]);
+	};
 
 	return (
 		<View className="z-10 flex-1 justify-start gap-0 p-0 bg-white dark:bg-black h-full">
@@ -247,6 +276,32 @@ export default function Screen() {
 						<Text className="mb-6">
 							Add new tasks to your list. You can also add a due date and assign to a list.
 						</Text>
+						<Text className="text-sm font-semibold mb-2">
+							Assign to List
+						</Text>
+						<Select value={{ value: selectedList, label: selectedList }} className='mb-4' defaultValue={{ value: 'My Tasks', label: 'My Tasks' }}
+							onValueChange={(value) => setSelectedList(value.value)}
+						>
+							<SelectTrigger className='w-[280px]'>
+								<SelectValue
+									className='text-foreground text-sm native:text-lg'
+									placeholder='Select a list'
+								/>
+							</SelectTrigger>
+							<SelectContent insets={contentInsets} className='w-[280px]'>
+								<SelectGroup>
+									<SelectLabel>Lists</SelectLabel>
+									<SelectItem label='My Tasks' value='My Tasks'>
+										My Tasks
+									</SelectItem>
+									{Lists.map((item, index) => (
+										<SelectItem key={index} label={item} value={item}>
+											{item}
+										</SelectItem>
+									))}
+								</SelectGroup>
+							</SelectContent>
+						</Select>
 						<Text className="text-sm font-semibold mb-2">Task Name</Text>
 						<Input placeholder="Enter task name here..." className="mb-4"
 							onChangeText={(text) => setInputText(text)}
@@ -262,28 +317,6 @@ export default function Screen() {
 								{time.toLocaleDateString()}
 							</Text>
 						</Button>
-						<Text className="text-sm font-semibold mb-2">
-							Assign to List
-						</Text>
-						<Select className='mb-4'>
-							<SelectTrigger>
-								<SelectValue placeholder='Select a list'
-								>
-									{activeTab}
-								</SelectValue>
-							</SelectTrigger>
-							<SelectContent>
-								<SelectGroup insets={contentInsets}>
-									{lists.map((list) => (
-										<SelectItem key={list} onPress={() => setActiveTab(list)}>
-											<SelectLabel>
-												{list}
-											</SelectLabel>
-										</SelectItem>
-									))}
-								</SelectGroup>
-							</SelectContent>
-						</Select>
 						<View className="flex-row items-center mb-6 mt-2 ml-2 mx-1">
 							<Text
 								className="flex-1 text-xl font-semibold"
@@ -298,14 +331,14 @@ export default function Screen() {
 						</Button>
 					</View>
 				</Animated.View>
-			</View>
+			</View >
 
 			{/* Hovering Icon */}
-			<TouchableOpacity className='z-30 absolute bottom-8 right-8 rounded-full bg-blue-400 dark:bg-white h-[68px] w-[68px] flex items-center justify-center'
+			< TouchableOpacity className='z-30 absolute bottom-8 right-8 rounded-full bg-blue-400 dark:bg-white h-[68px] w-[68px] flex items-center justify-center'
 				onPress={openDrawer}
 			>
 				<Plus className='text-white dark:text-black' size={26} />
-			</TouchableOpacity>
-		</View>
+			</TouchableOpacity >
+		</View >
 	);
 }
