@@ -4,6 +4,7 @@ import Animated, { useSharedValue, useAnimatedStyle, withSpring, withTiming } fr
 import { TouchableOpacity, ScrollView } from 'react-native';
 import { Plus } from '~/lib/icons/Plus';
 import { Star } from '~/lib/icons/Star';
+import { Trash } from '~/lib/icons/Trash';
 import { Text } from '~/components/ui/text';
 import { useState, useRef, useEffect } from 'react';
 import { Input } from '~/components/ui/input';
@@ -34,6 +35,8 @@ import {
 } from '~/components/ui/dialog';
 import { Alert } from 'react-native';
 import { Value } from '@rn-primitives/select';
+import { Check, Trash2Icon } from 'lucide-react-native';
+import { Checkbox } from '~/components/ui/checkbox';
 
 const { height } = Dimensions.get('window');
 const DRAWER_HEIGHT = 498;
@@ -145,6 +148,8 @@ export default function Screen() {
 		setInputText('');
 		setTime(new Date());
 		setStarred(false);
+		// close the drawer
+		closeDrawer();
 	};
 
 	React.useEffect(() => {
@@ -291,7 +296,7 @@ export default function Screen() {
 	return (
 		<View className="z-10 flex-1 justify-start gap-0 p-0 bg-white dark:bg-black h-full">
 			{/* Tabs */}
-			<View className="flex-row border-b border-gray-400 mb-4 mx-0 mt-[28px] relative">
+			<View className="flex-row border-b border-gray-400 mb-1.5 mx-0 mt-[28px] relative">
 				<ScrollView horizontal className='flex-row' showsHorizontalScrollIndicator={false}
 					style={{
 						bottom: -1,
@@ -379,18 +384,29 @@ export default function Screen() {
 						</Text>
 					</View>
 				) : activeTab === 'Starred' && starredTasks.length > 0 ? (
-					<ScrollView className="flex-1 px-8" showsVerticalScrollIndicator={false}>
+					<ScrollView className="flex-1 mx-4" showsVerticalScrollIndicator={false}>
 						{starredTasks.map((task, index) => (
 							<View key={index} className="flex-row items-center justify-between border-b border-gray-300 p-4">
-								<View className="flex-1">
+								<Checkbox className='rounded-full' checked={task.completed} onCheckedChange={(checked) => {
+									const newTasks = [...tasks];
+									newTasks[index].completed = checked;
+									setTasks(newTasks);
+								}
+								} />
+								<View className="flex-1 ml-4" >
 									<Text className="text-lg font-semibold">{task.description}</Text>
-									<Text className="text-sm text-muted-foreground dark:text-gray-400">{task.date.toLocaleDateString()}</Text>
+									<Text className="text-sm text-gray-500">{task.date.toLocaleDateString()}</Text>
 								</View>
-								<Switch className={`${task.starred ? 'bg-blue-500' : ' bg-gray-300'}`} checked={task.starred} onCheckedChange={(checked) => {
-									const updatedTasks = [...starredTasks];
-									updatedTasks[index].starred = checked;
-									setStarredTasks(updatedTasks);
-								}} />
+								<Button variant="ghost" size='icon'
+									onPress={() => {
+										const newTasks = [...tasks];
+										newTasks.splice(index, 1);
+										setTasks(newTasks);
+									}
+									}
+								>
+									<Trash2Icon className="text-gray-500 z-[60]" size={12} />
+								</Button>
 							</View>
 						))}
 					</ScrollView>
