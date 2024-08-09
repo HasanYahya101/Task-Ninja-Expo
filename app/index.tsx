@@ -35,8 +35,9 @@ import {
 } from '~/components/ui/dialog';
 import { Alert } from 'react-native';
 import { Value } from '@rn-primitives/select';
-import { Check, Trash2Icon } from 'lucide-react-native';
+import { Check } from 'lucide-react-native';
 import { Checkbox } from '~/components/ui/checkbox';
+import { Trash2Icon } from '~/lib/icons/Trash2Icon';
 
 const { height } = Dimensions.get('window');
 const DRAWER_HEIGHT = 498;
@@ -384,20 +385,22 @@ export default function Screen() {
 						</Text>
 					</View>
 				) : activeTab === 'Starred' && starredTasks.length > 0 ? (
-					<ScrollView className="flex-1 mx-4" showsVerticalScrollIndicator={false}>
+					<ScrollView className="flex-1 mx-0" showsVerticalScrollIndicator={false}>
 						{starredTasks.map((task, index) => (
-							<View key={index} className="flex-row items-center justify-between border-b border-gray-300 p-4">
-								<Checkbox className='rounded-full' checked={task.completed} onCheckedChange={(checked) => {
+							<View key={index} className="flex-row items-center justify-between border-b border-gray-300 p-4"
+							>
+
+								<Checkbox className='rounded-full ml-4' checked={task.completed} onCheckedChange={(checked) => {
 									const newTasks = [...tasks];
 									newTasks[index].completed = checked;
 									setTasks(newTasks);
 								}
 								} />
-								<View className="flex-1 ml-4" >
+								<View className="flex-1 ml-5" >
 									<Text className="text-lg font-semibold">{task.description}</Text>
 									<Text className="text-sm text-gray-500">{task.date.toLocaleDateString()}</Text>
 								</View>
-								<TouchableOpacity className='h-12 w-12'
+								<TouchableOpacity className='h-10 w-10 items-center justify-center mr-2'
 									onPress={() => {
 										const newTasks = [...tasks];
 										newTasks.splice(index, 1);
@@ -405,7 +408,7 @@ export default function Screen() {
 									}
 									}
 								>
-									<Trash2Icon className="text-gray-500 z-[60]" size={12} />
+									<Trash2Icon className="text-gray-900" size={24} />
 								</TouchableOpacity>
 							</View>
 						))}
