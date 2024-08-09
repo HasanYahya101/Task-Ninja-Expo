@@ -397,7 +397,7 @@ export default function Screen() {
 									<Text className="text-lg font-semibold">{task.description}</Text>
 									<Text className="text-sm text-gray-500">{task.date.toLocaleDateString()}</Text>
 								</View>
-								<Button variant="ghost" size='icon'
+								<TouchableOpacity className='h-12 w-12'
 									onPress={() => {
 										const newTasks = [...tasks];
 										newTasks.splice(index, 1);
@@ -406,7 +406,7 @@ export default function Screen() {
 									}
 								>
 									<Trash2Icon className="text-gray-500 z-[60]" size={12} />
-								</Button>
+								</TouchableOpacity>
 							</View>
 						))}
 					</ScrollView>
