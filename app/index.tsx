@@ -345,6 +345,18 @@ export default function Screen() {
 	};
 
 	const editChanges = () => {
+		if (taskInputText.length < 5) {
+			Alert.alert('Error', 'Task name should be at least 5 characters long.');
+			return;
+		}
+		const newTasks = [...tasks];
+		newTasks[changeIndex].description = taskInputText;
+		newTasks[changeIndex].date = taskInputDate;
+		newTasks[changeIndex].starred = taskStarred;
+		newTasks[changeIndex].listName = taskSelectedList;
+		setTasks(newTasks);
+		setTaskDialogOpen(false);
+		saveCheckedlist(newTasks);
 	};
 
 	return (
@@ -585,12 +597,12 @@ export default function Screen() {
 											saveCheckedlist(newTasks);
 										}}
 										onLongPress={() => {
-											setTaskDialogOpen(true);
 											setTaskInputText(task.description);
 											setTaskInputDate(task.date);
 											setTaskStarred(task.starred);
 											setTaskSelectedList(task.listName);
 											setChangeIndex(index);
+											setTaskDialogOpen(true);
 										}}
 									>
 										<Checkbox className='rounded-full ml-4' checked={task.completed} onCheckedChange={
@@ -670,12 +682,12 @@ export default function Screen() {
 										}}
 
 										onLongPress={() => {
-											setTaskDialogOpen(true);
 											setTaskInputText(task.description);
 											setTaskInputDate(task.date);
 											setTaskStarred(task.starred);
 											setTaskSelectedList(task.listName);
 											setChangeIndex(index);
+											setTaskDialogOpen(true);
 										}}
 									>
 										<Checkbox className='rounded-full ml-4' checked={task.completed} onCheckedChange={
