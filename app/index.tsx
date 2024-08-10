@@ -39,6 +39,7 @@ import { Check } from 'lucide-react-native';
 import { Checkbox } from '~/components/ui/checkbox';
 import { Trash2Icon } from '~/lib/icons/Trash2Icon';
 import { Keyboard } from 'react-native';
+import { RefreshControl } from 'react-native';
 
 const { height } = Dimensions.get('window');
 const DRAWER_HEIGHT = 568; // 498 prev
@@ -86,7 +87,7 @@ export default function Screen() {
 	const [tasks, setTasks] = useState([] as Task[]);
 	const [Lists, setLists] = useState([] as string[]);
 
-	const [starred, setStarred] = useState(true);
+	const [starred, setStarred] = useState(false);
 	const [selectedList, setSelectedList] = useState('My Tasks');
 
 	const [dialogOpen, setDialogOpen] = useState(false);
@@ -149,7 +150,7 @@ export default function Screen() {
 		// clear input fields
 		setInputText('');
 		setTime(new Date());
-		setStarred(true);
+		setStarred(false);
 		// close the keyboard if open
 		Keyboard.dismiss();
 		// close the drawer
@@ -300,7 +301,7 @@ export default function Screen() {
 	return (
 		<View className="z-10 flex-1 justify-start gap-0 p-0 bg-white dark:bg-black h-full">
 			{/* Tabs */}
-			<View className="flex-row border-b border-gray-400 mb-1.5 mx-0 mt-[28px] relative">
+			<View className="flex-row border-b border-gray-400  mx-0 mt-[28px] relative">
 				<ScrollView horizontal className='flex-row' showsHorizontalScrollIndicator={false}
 					style={{
 						bottom: -1,
@@ -418,40 +419,51 @@ export default function Screen() {
 						</Text>
 					</View>
 				) : activeTab === 'Starred' && starredTasks.length > 0 ? (
-					<ScrollView className="h-full w-full" showsVerticalScrollIndicator={false}>
-						{starredTasks.map((task, index) => (
-							<View key={index} className="flex-row items-center justify-between border-b border-dashed border-gray-300 p-4"
-							>
-								<TouchableOpacity className='flex-row items-center flex-1'
-									onPress={() => {
-										const newTasks = [...tasks];
-										newTasks[index].completed = !task.completed;
-										setTasks(newTasks);
+					<ScrollView className="h-full w-full max-h-[84.5vh]" showsVerticalScrollIndicator={false}
+						refreshControl={(
+							<RefreshControl
+								refreshing={false}
+								onRefresh={() => loadData()}
+							/>
+						)}
+					>
+						{tasks.map((task, index) => (
 
-									}}
+							task.starred ? (
+								<View key={index} className="flex-row items-center justify-between border border-dashed border-gray-300 p-4"
 								>
-									<Checkbox className='rounded-full ml-4' checked={task.completed} onCheckedChange={(checked) => {
-										const newTasks = [...tasks];
-										newTasks[index].completed = checked;
-										setTasks(newTasks);
-									}
-									} />
-									<View className={`flex-1 ml-5 mr-6 ${task.completed ? 'opacity-55' : ''}`} >
-										<Text className={`text-lg font-semibold truncate ${task.completed ? 'line-through' : ''}`}>{task.description}</Text>
-										<Text className={`text-sm text-gray-500 truncate ${task.completed ? 'line-through' : ''}`}>{task.date.toLocaleDateString()}</Text>
-									</View>
-								</TouchableOpacity>
-								<TouchableOpacity className='h-10 w-10 items-center justify-center mr-2'
-									onPress={() => {
-										const newTasks = [...tasks];
-										newTasks.splice(index, 1);
-										setTasks(newTasks);
-									}
-									}
-								>
-									<Trash2Icon className="text-gray-900" size={24} />
-								</TouchableOpacity>
-							</View>
+									<TouchableOpacity className='flex-row items-center flex-1'
+										onPress={() => {
+											const newTasks = [...tasks];
+											newTasks[index].completed = !task.completed;
+											setTasks(newTasks);
+										}}
+									>
+										<Checkbox className='rounded-full ml-4' checked={task.completed} onCheckedChange={
+											(checked) => {
+												const newTasks = [...tasks];
+												newTasks[index].completed = checked;
+												setTasks(newTasks);
+											}
+										}
+										/>
+										<View className={`flex-1 ml-5 mr-6 ${task.completed ? 'opacity-55' : ''}`} >
+											<Text className={`text-lg font-semibold truncate ${task.completed ? 'line-through' : ''}`}>{task.description}</Text>
+											<Text className={`text-sm text-gray-500 truncate ${task.completed ? 'line-through' : ''}`}>{task.date.toLocaleDateString()}</Text>
+										</View>
+									</TouchableOpacity>
+									<TouchableOpacity className='h-10 w-10 items-center justify-center mr-2'
+										onPress={() => {
+											const newTasks = [...tasks];
+											newTasks.splice(index, 1);
+											setTasks(newTasks);
+										}
+										}
+									>
+										<Trash2Icon className="text-gray-900" size={24} />
+									</TouchableOpacity>
+								</View>
+							) : null
 						))}
 					</ScrollView>
 				) : null
@@ -490,7 +502,7 @@ export default function Screen() {
 							onChangeText={(text) => setInputText(text)}
 							value={inputText}
 							selectionColor="gray"
-							maxLength={40}
+							maxLength={20}
 						/>
 						<Text className="text-sm font-semibold mb-2">
 							Due Date
