@@ -86,7 +86,7 @@ export default function Screen() {
 	const [tasks, setTasks] = useState([] as Task[]);
 	const [Lists, setLists] = useState([] as string[]);
 
-	const [starred, setStarred] = useState(false);
+	const [starred, setStarred] = useState(true);
 	const [selectedList, setSelectedList] = useState('My Tasks');
 
 	const [dialogOpen, setDialogOpen] = useState(false);
@@ -149,7 +149,7 @@ export default function Screen() {
 		// clear input fields
 		setInputText('');
 		setTime(new Date());
-		setStarred(false);
+		setStarred(true);
 		// close the keyboard if open
 		Keyboard.dismiss();
 		// close the drawer
@@ -418,11 +418,11 @@ export default function Screen() {
 						</Text>
 					</View>
 				) : activeTab === 'Starred' && starredTasks.length > 0 ? (
-					<ScrollView className="flex-1 mx-0 min-h-[84vh]" showsVerticalScrollIndicator={false}>
+					<ScrollView className="flex-1 mx-0 min-h-[84vh] h-[84vh]" showsVerticalScrollIndicator={false}>
 						{starredTasks.map((task, index) => (
 							<View key={index} className="flex-row items-center justify-between border-b border-dashed border-gray-300 p-4"
 							>
-								<Pressable className='flex-row items-center flex-1'
+								<TouchableOpacity className='flex-row items-center flex-1'
 									onPress={() => {
 										const newTasks = [...tasks];
 										newTasks[index].completed = !task.completed;
@@ -440,7 +440,7 @@ export default function Screen() {
 										<Text className={`text-lg font-semibold truncate ${task.completed ? 'line-through' : ''}`}>{task.description}</Text>
 										<Text className={`text-sm text-gray-500 truncate ${task.completed ? 'line-through' : ''}`}>{task.date.toLocaleDateString()}</Text>
 									</View>
-								</Pressable>
+								</TouchableOpacity>
 								<TouchableOpacity className='h-10 w-10 items-center justify-center mr-2'
 									onPress={() => {
 										const newTasks = [...tasks];
