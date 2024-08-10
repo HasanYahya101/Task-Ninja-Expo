@@ -35,7 +35,7 @@ import {
 } from '~/components/ui/dialog';
 import { Alert } from 'react-native';
 import { Value } from '@rn-primitives/select';
-import { Check } from 'lucide-react-native';
+import { Check, ScrollText } from 'lucide-react-native';
 import { Checkbox } from '~/components/ui/checkbox';
 import { Trash2Icon } from '~/lib/icons/Trash2Icon';
 import { Keyboard } from 'react-native';
@@ -291,12 +291,10 @@ export default function Screen() {
 		setTasks((prevTasks) => prevTasks.filter((task) => task.listName !== listName));
 	};
 
-	const [starredTasks, setStarredTasks] = useState([] as Task[]);
-
-	useEffect(() => {
-		// if tasks change filter and set starred tasks
-		setStarredTasks(tasks.filter((task) => task.starred));
-	}, [tasks]);
+	const numberOfTasks = (listName: string) => {
+		// return the number of tasks in the list
+		return tasks.filter((task) => task.listName === listName).length;
+	};
 
 	return (
 		<View className="z-10 flex-1 justify-start gap-0 p-0 bg-white dark:bg-black h-full">
@@ -404,8 +402,10 @@ export default function Screen() {
 				)
 			}
 			{/* Tasks */}
+
+			{/*Starred*/}
 			<View className="h-full w-full">
-				{activeTab === 'Starred' && starredTasks.length === 0 ? (
+				{activeTab === 'Starred' && numberOfTasks("Starred") === 0 ? (
 					<View className="mx-auto max-w-md text-center mt-[20vh]">
 						<Star className="mx-auto text-blue-500"
 							size={104}
@@ -418,7 +418,70 @@ export default function Screen() {
 							Star your important tasks to keep them handy. Once you star a task, it will appear here.
 						</Text>
 					</View>
-				) : activeTab === 'Starred' && starredTasks.length > 0 ? (
+				) : activeTab === 'Starred' && numberOfTasks("Starred") > 0 ? (
+					<ScrollView className="h-full w-full max-h-[84.5vh]" showsVerticalScrollIndicator={false}
+						refreshControl={(
+							<RefreshControl
+								refreshing={false}
+								onRefresh={() => loadData()}
+							/>
+						)}
+					>
+						{tasks.map((task, index) => (
+
+							task.starred ? (
+								<View key={index} className="flex-row items-center justify-between border border-dashed border-gray-300 p-4"
+								>
+									<TouchableOpacity className='flex-row items-center flex-1'
+										onPress={() => {
+											const newTasks = [...tasks];
+											newTasks[index].completed = !task.completed;
+											setTasks(newTasks);
+										}}
+									>
+										<Checkbox className='rounded-full ml-4' checked={task.completed} onCheckedChange={
+											(checked) => {
+												const newTasks = [...tasks];
+												newTasks[index].completed = checked;
+												setTasks(newTasks);
+											}
+										}
+										/>
+										<View className={`flex-1 ml-5 mr-6 ${task.completed ? 'opacity-55' : ''}`} >
+											<Text className={`text-lg font-semibold truncate ${task.completed ? 'line-through' : ''}`}>{task.description}</Text>
+											<Text className={`text-sm text-gray-500 truncate ${task.completed ? 'line-through' : ''}`}>{task.date.toLocaleDateString()}</Text>
+										</View>
+									</TouchableOpacity>
+									<TouchableOpacity className='h-10 w-10 items-center justify-center mr-2'
+										onPress={() => {
+											const newTasks = [...tasks];
+											newTasks.splice(index, 1);
+											setTasks(newTasks);
+										}
+										}
+									>
+										<Trash2Icon className="text-gray-900" size={24} />
+									</TouchableOpacity>
+								</View>
+							) : null
+						))}
+					</ScrollView>
+				) : null
+				}
+				{activeTab !== 'Starred' && numberOfTasks(`${activeTab}`) === 0 ? (
+					<View className="mx-auto max-w-md text-center mt-[20vh]">
+						<ScrollText className="mx-auto text-blue-500"
+							size={104}
+							strokeWidth={1.2}
+						/>
+						<Text className="mt-4 text-3xl justify-center text-center font-bold tracking-tight text-foreground sm:text-4xl dark:text-white">
+							No starred tasks
+						</Text>
+						<Text className="mt-4 text-center mx-10 text-muted-foreground dark:text-gray-400">
+							Star your important tasks to keep them handy. Once you star a task, it will appear here.
+						</Text>
+					</View>
+				) : activeTab !== 'Starred' && numberOfTasks(`${activeTab}`) > 0 ? (
 					<ScrollView className="h-full w-full max-h-[84.5vh]" showsVerticalScrollIndicator={false}
 						refreshControl={(
 							<RefreshControl
@@ -550,7 +613,8 @@ export default function Screen() {
 							>
 								Star:
 							</Text>
-							<Switch className={`${starred ? 'bg-blue-500' : ' bg-gray-300'} ml-auto`} checked={starred} onCheckedChange={setStarred} nativeID="star" />
+							<Switch className={`${starred ? 'bg-blue-500' : ' bg-gray-300'} ml-auto`} checked={starred} onCheckedChange={setStarred} nativeID="star"
+							/>
 						</View>
 						<Button className="w-full bg-blue-500" onPress={addTask}>
 							<Text className="text-white">Add Task</Text>
