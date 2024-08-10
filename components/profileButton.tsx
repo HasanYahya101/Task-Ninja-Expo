@@ -55,26 +55,28 @@ export function ProfileButton() {
                     <DialogDescription>
                         <View className='flex items-center justify-center'>
                             {/* Profile Picture */}
-                            <Avatar
-                                className='text-foreground ml-2 mt-2 h-[80px] w-[80px] rounded-full border border-gray-100'
-                            >
-                                <AvatarImage
-                                    src={`https://github.com/${githubusername}.png`}
-                                />
-                                <AvatarFallback>
-                                    <Text className='text-muted-foreground text-4xl'
-                                    >
-                                        {/*if username is '', show U else show usernames first letter in capital*/}
-                                        {username ? username[0].toUpperCase() : 'U'}
-                                    </Text>
-                                </AvatarFallback>
-                            </Avatar>
-                            <View className='flex flex-col ml-4'>
+                            <View className='flex items-center justify-center'>
+                                <Avatar
+                                    className='text-foreground h-[80px] w-[80px] rounded-full border border-gray-200'
+                                >
+                                    <AvatarImage
+                                        src={`https://github.com/${githubusername}.png`}
+                                    />
+                                    <AvatarFallback>
+                                        <Text className='text-muted-foreground text-4xl'
+                                        >
+                                            {/*if username is '', show U else show usernames first letter in capital*/}
+                                            {username ? username[0].toUpperCase() : 'U'}
+                                        </Text>
+                                    </AvatarFallback>
+                                </Avatar>
+                            </View>
+                            <View className='flex flex-col mt-4 w-full'>
                                 <Text className='text-sm font-semibold mb-0'>Name</Text>
                                 <Input value={username} selectionColor="gray" className='mt-2' placeholder="Enter your name..."
                                     onChangeText={(text) => setUsername(text)}
                                 />
-                                <Text className='text-sm font-semibold mb-0'>Github Username</Text>
+                                <Text className='text-sm font-semibold mb-0 mt-4'>Github Username</Text>
                                 <Input value={githubusername} selectionColor="gray" className='mt-2' placeholder="Enter your github username..."
                                     onChangeText={(text) => setGithubUsername(text)}
                                 />
