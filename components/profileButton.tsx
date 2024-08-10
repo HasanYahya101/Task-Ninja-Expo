@@ -16,6 +16,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '~/components/ui/dialog';
+import { Input } from '~/components/ui/input';
 
 export function ProfileButton() {
     const [username, setUsername] = useState('');
@@ -46,10 +47,40 @@ export function ProfileButton() {
         <View>
             <Dialog open={open} onOpenChange={setOpen}
             >
-                <DialogContent>
-                    <View className='flex items-center'>
-
-                    </View>
+                <DialogContent className='w-[80vw]'
+                >
+                    <DialogHeader>
+                        <DialogTitle>Edit Profile Info</DialogTitle>
+                    </DialogHeader>
+                    <DialogDescription>
+                        <View className='flex items-center justify-center'>
+                            {/* Profile Picture */}
+                            <Avatar
+                                className='text-foreground ml-2 mt-2 h-[80px] w-[80px] rounded-full border border-gray-100'
+                            >
+                                <AvatarImage
+                                    src={`https://github.com/${githubusername}.png`}
+                                />
+                                <AvatarFallback>
+                                    <Text className='text-muted-foreground text-4xl'
+                                    >
+                                        {/*if username is '', show U else show usernames first letter in capital*/}
+                                        {username ? username[0].toUpperCase() : 'U'}
+                                    </Text>
+                                </AvatarFallback>
+                            </Avatar>
+                            <View className='flex flex-col ml-4'>
+                                <Text className='text-sm font-semibold mb-0'>Name</Text>
+                                <Input value={username} selectionColor="gray" className='mt-2' placeholder="Enter your name..."
+                                    onChangeText={(text) => setUsername(text)}
+                                />
+                                <Text className='text-sm font-semibold mb-0'>Github Username</Text>
+                                <Input value={githubusername} selectionColor="gray" className='mt-2' placeholder="Enter your github username..."
+                                    onChangeText={(text) => setGithubUsername(text)}
+                                />
+                            </View>
+                        </View>
+                    </DialogDescription>
                 </DialogContent>
                 <DialogFooter>
 
@@ -75,7 +106,7 @@ export function ProfileButton() {
                                 src={`https://github.com/${githubusername}.png`}
                             />
                             <AvatarFallback>
-                                <Text className='text-foreground text-lg'
+                                <Text className='text-muted-foreground text-lg'
                                 >
                                     {/*if username is '', show U else show usernames first letter in capital*/}
                                     {username ? username[0].toUpperCase() : 'U'}
