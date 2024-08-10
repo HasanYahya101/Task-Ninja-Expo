@@ -150,6 +150,7 @@ export function ProfileButton() {
                                 <AvatarImage
                                     source={{ uri: 'https://avatars.githubusercontent.com/' + githubusername }}
                                     className='rounded-full'
+                                    src={`https://github.com/${githubusername}.png`}
                                 />
                                 <AvatarFallback>
                                     <Text className='text-muted-foreground text-lg'
