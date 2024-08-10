@@ -5,7 +5,7 @@ import { useColorScheme } from '~/lib/useColorScheme';
 import { cn } from '~/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Text } from './ui/text';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
     Dialog,
     DialogClose,
@@ -17,10 +17,15 @@ import {
     DialogTrigger,
 } from '~/components/ui/dialog';
 import { Input } from '~/components/ui/input';
+import { Button } from './ui/button';
+import { Keyboard } from 'react-native';
 
 export function ProfileButton() {
     const [username, setUsername] = useState('');
     const [githubusername, setGithubUsername] = useState('');
+
+    const [usernameInput, setUsernameInput] = useState('');
+    const [githubusernameInput, setGithubUsernameInput] = useState('');
 
     const [open, setOpen] = useState(false);
 
@@ -43,11 +48,38 @@ export function ProfileButton() {
         await AsyncStorage.setItem('githubusername', githubusername);
     };
 
+    const ButtonClick = () => {
+        setUsername(usernameInput);
+        setGithubUsername(githubusernameInput);
+        Keyboard.dismiss();
+        setOpen(false);
+    };
+
+    const usernameMounted = useRef(true);
+    const githubusernameMounted = useRef(true);
+
+    useEffect(() => {
+        if (usernameMounted.current) {
+            usernameMounted.current = false;
+            return;
+        }
+        setAsyncusername(username);
+    }, [username]);
+
+    useEffect(() => {
+        if (githubusernameMounted.current) {
+            githubusernameMounted.current = false;
+            return;
+        }
+        setAsyncGithubUsername(githubusername);
+    }, [githubusername]);
+
+
     return (
         <View>
             <Dialog open={open} onOpenChange={setOpen}
             >
-                <DialogContent className='w-[80vw]'
+                <DialogContent className=''
                 >
 
                     <DialogTitle>Edit Profile Info</DialogTitle>
@@ -64,24 +96,29 @@ export function ProfileButton() {
                                     </AvatarFallback>
                                 </Avatar>
                             </View>
-                            <View className="flex flex-col mt-2 w-full px-2">
+                            <View className="flex flex-col mt-2 w-full px-0">
                                 <Text className="text-base font-semibold mb-1">Name</Text>
                                 <Input
-                                    value={username}
+                                    value={usernameInput}
                                     selectionColor="gray"
-                                    className="mt-1 border border-gray-300 rounded-md py-2 w-full"
+                                    className="mt-1 border border-gray-300 rounded-md py-2 w-[68vw]"
                                     placeholder="Enter your name..."
-                                    onChangeText={(text) => setUsername(text)}
+                                    onChangeText={(text) => setUsernameInput(text)}
                                 />
-                                <Text className="text-base font-semibold mt-6 mb-1">Github Username</Text>
+                                <Text className="text-base font-semibold mt-4 mb-1">Github Username</Text>
                                 <Input
-                                    value={githubusername}
+                                    value={githubusernameInput}
                                     selectionColor="gray"
-                                    className="mt-1 border border-gray-300 rounded-md py-2 w-full"
+                                    className="mt-1 border border-gray-300 rounded-md py-2 w-[68vw]"
                                     placeholder="Enter your github username..."
-                                    onChangeText={(text) => setGithubUsername(text)}
+                                    onChangeText={(text) => setGithubUsernameInput(text)}
                                 />
                             </View>
+                            <Button className="mt-8 w-[68vw] bg-blue-500" onPress={() => {
+                                ButtonClick();
+                            }}>
+                                <Text>Save</Text>
+                            </Button>
                         </View>
 
                     </DialogDescription>
@@ -90,6 +127,8 @@ export function ProfileButton() {
             <Pressable
                 onPress={() => {
                     setOpen(true);
+                    setUsernameInput(username);
+                    setGithubUsernameInput(githubusername);
                 }}
                 className='web:ring-offset-background web:transition-colors web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2'
             >
