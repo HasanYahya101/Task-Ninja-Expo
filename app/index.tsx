@@ -35,11 +35,12 @@ import {
 } from '~/components/ui/dialog';
 import { Alert } from 'react-native';
 import { Value } from '@rn-primitives/select';
-import { Check, ScrollText } from 'lucide-react-native';
+import { Check } from 'lucide-react-native';
 import { Checkbox } from '~/components/ui/checkbox';
 import { Trash2Icon } from '~/lib/icons/Trash2Icon';
 import { Keyboard } from 'react-native';
 import { RefreshControl } from 'react-native';
+import { ScrollText } from '~/lib/icons/ScrollText';
 
 const { height } = Dimensions.get('window');
 const DRAWER_HEIGHT = 568; // 498 prev
@@ -492,7 +493,7 @@ export default function Screen() {
 					>
 						{tasks.map((task, index) => (
 
-							task.starred ? (
+							task.listName === activeTab ? (
 								<View key={index} className="flex-row items-center justify-between border border-dashed border-gray-300 p-4"
 								>
 									<TouchableOpacity className='flex-row items-center flex-1'
