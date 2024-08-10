@@ -420,7 +420,7 @@ export default function Screen() {
 				) : activeTab === 'Starred' && starredTasks.length > 0 ? (
 					<ScrollView className="flex-1 mx-0 min-h-[84vh]" showsVerticalScrollIndicator={false}>
 						{starredTasks.map((task, index) => (
-							<View key={index} className="flex-row items-center justify-between border-b border-gray-300 p-4"
+							<View key={index} className="flex-row items-center justify-between border-b border-dashed border-gray-300 p-4"
 							>
 								<Pressable className='flex-row items-center flex-1'
 									onPress={() => {
