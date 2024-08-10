@@ -41,7 +41,7 @@ import { Trash2Icon } from '~/lib/icons/Trash2Icon';
 import { Keyboard } from 'react-native';
 
 const { height } = Dimensions.get('window');
-const DRAWER_HEIGHT = 498;
+const DRAWER_HEIGHT = 568;
 
 class Task {
 	constructor(
@@ -403,7 +403,7 @@ export default function Screen() {
 				)
 			}
 			{/* Tasks */}
-			<View className="flex-1">
+			<View className="h-full w-full">
 				{activeTab === 'Starred' && starredTasks.length === 0 ? (
 					<View className="mx-auto max-w-md text-center mt-[20vh]">
 						<Star className="mx-auto text-blue-500"
@@ -418,7 +418,7 @@ export default function Screen() {
 						</Text>
 					</View>
 				) : activeTab === 'Starred' && starredTasks.length > 0 ? (
-					<ScrollView className="flex-1 mx-0 min-h-[84vh] h-[84vh]" showsVerticalScrollIndicator={false}>
+					<ScrollView className="h-full w-full" showsVerticalScrollIndicator={false}>
 						{starredTasks.map((task, index) => (
 							<View key={index} className="flex-row items-center justify-between border-b border-dashed border-gray-300 p-4"
 							>
@@ -462,14 +462,13 @@ export default function Screen() {
 			<View className="flex-1">
 				{isOpen && (
 					<TouchableOpacity
-						className="absolute inset-0 bg-gray-500 bg-opacity-50 z-[35]"
+						className="absolute inset-0 bg-gray-500 bg-opacity-50"
 						onPress={closeDrawer}
 						activeOpacity={1}
 					/>
 				)}
 
 				<Animated.View
-					pointerEvents={isOpen ? 'auto' : 'none'}
 					className={`absolute left-0 right-0 z-40 bottom-0 bg-white rounded-t-3xl shadow-none border-b border-t border-x border-gray-200`}
 					style={[
 						{
