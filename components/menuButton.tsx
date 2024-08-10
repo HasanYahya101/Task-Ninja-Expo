@@ -18,9 +18,17 @@ import {
 } from '~/components/ui/alert-dialog';
 import { useState } from 'react';
 import { Menu } from '~/lib/icons/Menu';
+import { DevSettings } from 'react-native';
 
 export function MenuButton() {
     const [open, setOpen] = useState(false);
+
+    const clearData = async () => {
+        await AsyncStorage.clear();
+        // reload the app
+        DevSettings.reload();
+    };
+
     return (
         <AlertDialog open={open} onOpenChange={setOpen} className='web:z-50'
         >
@@ -49,17 +57,19 @@ export function MenuButton() {
                 <AlertDialogTitle><Text>Warning</Text></AlertDialogTitle>
                 <AlertDialogDescription>
                     <Text>
-                        Are you sure you want to log out?
+                        Do you want to remove all data? This will also reload the app.
                     </Text>
                 </AlertDialogDescription>
                 <AlertDialogFooter className='mt-4 gap-4'
                 >
-                    <AlertDialogCancel>
-                        <Text>
+                    <AlertDialogCancel
+                    >
+                        <Text
+                        >
                             Cancel
                         </Text>
                     </AlertDialogCancel>
-                    <AlertDialogAction
+                    <AlertDialogAction onPress={clearData}
                         className='bg-red-500'
                     >
                         <Text>
