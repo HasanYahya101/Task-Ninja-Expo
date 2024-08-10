@@ -471,7 +471,7 @@ export default function Screen() {
 						{tasks.map((task, index) => (
 
 							task.starred ? (
-								<View key={index} className="flex-row items-center justify-between border-b border-dashed border-gray-300 p-4 py-6"
+								<View key={index} className="flex-row items-center justify-between border-b border-dashed border-gray-400 p-4 py-6"
 								>
 									<TouchableOpacity className='flex-row items-center flex-1'
 										onPress={() => {
@@ -547,7 +547,7 @@ export default function Screen() {
 						{tasks.map((task, index) => (
 
 							task.listName === `${activeTab}` ? (
-								<View key={index} className="flex-row items-center justify-between border-b border-dashed border-gray-300 p-4 py-6"
+								<View key={index} className="flex-row items-center justify-between border-b border-dashed border-gray-400 p-4 py-6"
 								>
 									<TouchableOpacity className='flex-row items-center flex-1'
 										onPress={() => {
