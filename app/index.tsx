@@ -292,6 +292,13 @@ export default function Screen() {
 		setTasks((prevTasks) => prevTasks.filter((task) => task.listName !== listName));
 	};
 
+	const [starredTasks, setStarredTasks] = useState([] as Task[]);
+
+	useEffect(() => {
+		// if tasks change filter and set starred tasks
+		setStarredTasks(tasks.filter((task) => task.starred));
+	}, [tasks]);
+
 	const numberOfTasks = (listName: string) => {
 		// return the number of tasks in the list
 		return tasks.filter((task) => task.listName === listName).length;
@@ -406,20 +413,31 @@ export default function Screen() {
 
 			{/*Starred*/}
 			<View className="h-full w-full">
-				{activeTab === 'Starred' && numberOfTasks("Starred") === 0 ? (
-					<View className="mx-auto max-w-md text-center mt-[20vh]">
-						<Star className="mx-auto text-blue-500"
-							size={104}
-							strokeWidth={1.2}
-						/>
-						<Text className="mt-4 text-3xl justify-center text-center font-bold tracking-tight text-foreground sm:text-4xl dark:text-white">
-							No starred tasks
-						</Text>
-						<Text className="mt-4 text-center mx-10 text-muted-foreground dark:text-gray-400">
-							Star your important tasks to keep them handy. Once you star a task, it will appear here.
-						</Text>
-					</View>
-				) : activeTab === 'Starred' && numberOfTasks("Starred") > 0 ? (
+				{activeTab === 'Starred' && starredTasks.length === 0 ? (
+					<ScrollView
+						refreshControl={(
+							<RefreshControl
+								refreshing={false}
+								onRefresh={() => loadData()}
+							/>
+						)
+						}
+					>
+						<View className="mx-auto max-w-md text-center mt-[20vh]"
+						>
+							<Star className="mx-auto text-blue-500"
+								size={104}
+								strokeWidth={1.2}
+							/>
+							<Text className="mt-4 text-3xl justify-center text-center font-bold tracking-tight text-foreground sm:text-4xl dark:text-white">
+								No starred tasks
+							</Text>
+							<Text className="mt-4 text-center mx-10 text-muted-foreground dark:text-gray-400">
+								Star your important tasks to keep them handy. Once you star a task, it will appear here.
+							</Text>
+						</View>
+					</ScrollView>
+				) : activeTab === 'Starred' && starredTasks.length > 0 ? (
 					<ScrollView className="h-full w-full max-h-[84.5vh]" showsVerticalScrollIndicator={false}
 						refreshControl={(
 							<RefreshControl
@@ -469,19 +487,30 @@ export default function Screen() {
 					</ScrollView>
 				) : null
 				}
+				{/*My Tasks*/}
 				{activeTab !== 'Starred' && numberOfTasks(`${activeTab}`) === 0 ? (
-					<View className="mx-auto max-w-md text-center mt-[20vh]">
-						<ScrollText className="mx-auto text-blue-500"
-							size={104}
-							strokeWidth={1.2}
-						/>
-						<Text className="mt-4 text-3xl justify-center text-center font-bold tracking-tight text-foreground sm:text-4xl dark:text-white">
-							No starred tasks
-						</Text>
-						<Text className="mt-4 text-center mx-10 text-muted-foreground dark:text-gray-400">
-							Star your important tasks to keep them handy. Once you star a task, it will appear here.
-						</Text>
-					</View>
+					<ScrollView
+						refreshControl={(
+							<RefreshControl
+								refreshing={false}
+								onRefresh={() => loadData()}
+							/>
+						)
+						}
+					>
+						<View className="mx-auto max-w-md text-center mt-[20vh]">
+							<ScrollText className="mx-auto text-blue-500"
+								size={104}
+								strokeWidth={1.2}
+							/>
+							<Text className="mt-4 text-3xl justify-center text-center font-bold tracking-tight text-foreground sm:text-4xl dark:text-white">
+								No tasks found
+							</Text>
+							<Text className="mt-4 text-center mx-10 text-muted-foreground dark:text-gray-400">
+								You don't have any tasks in this list. Add a new task to get started.
+							</Text>
+						</View>
+					</ScrollView>
 				) : activeTab !== 'Starred' && numberOfTasks(`${activeTab}`) > 0 ? (
 					<ScrollView className="h-full w-full max-h-[84.5vh]" showsVerticalScrollIndicator={false}
 						refreshControl={(
@@ -493,7 +522,7 @@ export default function Screen() {
 					>
 						{tasks.map((task, index) => (
 
-							task.listName === activeTab ? (
+							task.listName === `${activeTab}` ? (
 								<View key={index} className="flex-row items-center justify-between border border-dashed border-gray-300 p-4 py-6"
 								>
 									<TouchableOpacity className='flex-row items-center flex-1'
