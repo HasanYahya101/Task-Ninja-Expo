@@ -9,7 +9,7 @@ import { Text } from '~/components/ui/text';
 import { useState, useRef, useEffect } from 'react';
 import { Input } from '~/components/ui/input';
 import { Button } from '~/components/ui/button';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
 	Select,
@@ -236,7 +236,7 @@ export default function Screen() {
 		};
 	});
 
-	const onChange = (event, selectedTime) => {
+	const onChange = (event: Event, selectedTime: Date) => {
 		const currentTime = selectedTime || time;
 		setShowPicker(false);
 		setTime(currentTime);
