@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Pressable, View } from 'react-native';
+import { Image, Pressable, View } from 'react-native';
 import { setAndroidNavigationBar } from '~/lib/android-navigation-bar';
 import { useColorScheme } from '~/lib/useColorScheme';
 import { cn } from '~/lib/utils';
@@ -90,8 +90,8 @@ export function ProfileButton() {
                                     alt='Profile Picture'
                                 >
                                     <AvatarImage
-                                        source={{ uri: 'https://avatars.githubusercontent.com/' + githubusername }}
-                                        className="h-20 w-20 rounded-full"
+                                        source={{ uri: 'https://avatars.githubusercontent.com/' }}
+                                        className='rounded-full'
                                     />
                                     <AvatarFallback>
                                         <Text className="text-gray-500 text-4xl">
