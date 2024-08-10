@@ -41,7 +41,7 @@ import { Trash2Icon } from '~/lib/icons/Trash2Icon';
 import { Keyboard } from 'react-native';
 
 const { height } = Dimensions.get('window');
-const DRAWER_HEIGHT = 568;
+const DRAWER_HEIGHT = 568; // 498 prev
 
 class Task {
 	constructor(
