@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Dimensions, PanResponder } from 'react-native';
+import { View, Dimensions, PanResponder, Pressable } from 'react-native';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, withTiming } from 'react-native-reanimated';
 import { TouchableOpacity, ScrollView } from 'react-native';
 import { Plus } from '~/lib/icons/Plus';
@@ -422,8 +422,8 @@ export default function Screen() {
 						{starredTasks.map((task, index) => (
 							<View key={index} className="flex-row items-center justify-between border-b border-gray-300 p-4"
 							>
-								<View className='flex-row items-center flex-1'
-									onTouchStart={() => {
+								<Pressable className='flex-row items-center flex-1'
+									onPress={() => {
 										const newTasks = [...tasks];
 										newTasks[index].completed = !task.completed;
 										setTasks(newTasks);
@@ -440,7 +440,7 @@ export default function Screen() {
 										<Text className={`text-lg font-semibold truncate ${task.completed ? 'line-through' : ''}`}>{task.description}</Text>
 										<Text className={`text-sm text-gray-500 truncate ${task.completed ? 'line-through' : ''}`}>{task.date.toLocaleDateString()}</Text>
 									</View>
-								</View>
+								</Pressable>
 								<TouchableOpacity className='h-10 w-10 items-center justify-center mr-2'
 									onPress={() => {
 										const newTasks = [...tasks];
