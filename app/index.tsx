@@ -240,7 +240,7 @@ export default function Screen() {
 		};
 	});
 
-	const onChange = (event: Event, selectedTime: Date) => {
+	const onChange = (event, selectedTime) => {
 		const currentTime = selectedTime || time;
 		setShowPicker(false);
 		setTime(currentTime);
@@ -324,6 +324,27 @@ export default function Screen() {
 			console.error('Failed to save tasks:', error);
 		}
 		console.log('Tasks saved successfully!');
+	};
+
+	const [taskDialogOpen, setTaskDialogOpen] = useState(false);
+	const [taskInputText, setTaskInputText] = useState('');
+	const [taskInputDate, setTaskInputDate] = useState(new Date());
+	const [taskStarred, setTaskStarred] = useState(false);
+	const [taskSelectedList, setTaskSelectedList] = useState('My Tasks');
+	const [showTimePickerTask, setShowTimePickerTask] = useState(false);
+	const [changeIndex, setChangeIndex] = useState(0);
+
+	const onTaskDateChange = (event, selectedTime) => {
+		const currentTime = selectedTime || time;
+		setShowTimePickerTask(false);
+		setTaskInputDate(currentTime);
+	};
+
+	const showTimePickerTaskValue = () => {
+		setShowTimePickerTask(true);
+	};
+
+	const editChanges = () => {
 	};
 
 	return (
@@ -413,9 +434,80 @@ export default function Screen() {
 					<Input value={listInput} selectionColor="gray" className='mt-2' placeholder="Enter list name here..."
 						onChangeText={(text) => setListInput(text)}
 					/>
-					<Button className='bg-blue-500 mt-5' onPress={newListClicked}>
+					<Button className='bg-blue-500 mt-5' onPress={editChanges}>
 						<Text>Add Task</Text>
 					</Button>
+				</DialogContent>
+			</Dialog>
+			{/*Dialog for task edit*/}
+			<Dialog open={taskDialogOpen} onOpenChange={setTaskDialogOpen}
+			>
+				<DialogContent className='w-[80vw] gap-0'>
+					<View className="p-0.5">
+						<Text className="text-2xl font-bold mb-2">Edit Task</Text>
+						<Text className="mb-6">
+							Edit the task details here.
+						</Text>
+						<Text className="text-sm font-semibold mb-2">Task Name</Text>
+						<Input placeholder="Enter task name here..." className="mb-4"
+							onChangeText={(text) => setTaskInputText(text)}
+							value={taskInputText}
+							selectionColor="gray"
+							maxLength={20}
+						/>
+						<Text className="text-sm font-semibold mb-2">
+							Due Date
+						</Text>
+						<Button variant="outline" className="mb-4" onPress={() => { showTimePickerTaskValue() }}
+						>
+							<Text>
+								{taskInputDate.toLocaleDateString()}
+							</Text>
+						</Button>
+						<Text className="text-sm font-semibold mb-2">
+							Assign to List
+						</Text>
+						<Select value={{ value: taskSelectedList, label: taskSelectedList }} className='mb-4' defaultValue={{ value: `${taskSelectedList}`, label: `${taskSelectedList}` }}
+							onValueChange={(value) => setTaskSelectedList(value.value)}
+						>
+							<SelectTrigger className='w-full'>
+								<SelectValue
+									className='text-foreground text-sm native:text-lg'
+									placeholder='Select a list'
+								/>
+							</SelectTrigger>
+							<SelectContent insets={contentInsets} className='w-[280px]'
+								side='top'
+							>
+								<SelectGroup>
+									<SelectLabel>Lists</SelectLabel>
+									<SelectItem label='My Tasks' value='My Tasks'>
+										<Text>My Tasks</Text>
+									</SelectItem>
+									{Lists.map((item, index) => (
+										<SelectItem key={index} label={item} value={item}>
+											<Text>
+												{item}
+											</Text>
+										</SelectItem>
+									))}
+								</SelectGroup>
+							</SelectContent>
+						</Select>
+						<View className="flex-row items-center mb-6 mt-2 ml-2 mx-1">
+							<Text
+								className="flex-1 text-xl font-semibold"
+								nativeID="airplane-mode"
+							>
+								Star:
+							</Text>
+							<Switch className={`${taskStarred ? 'bg-blue-500' : ' bg-gray-300'} ml-auto`} checked={taskStarred} onCheckedChange={setTaskStarred} nativeID="starred"
+							/>
+						</View>
+						<Button className="w-full bg-blue-500" onPress={editChanges}>
+							<Text className="text-white">Save Changes</Text>
+						</Button>
+					</View>
 				</DialogContent>
 			</Dialog>
 			{/*Time Picker*/}
@@ -431,8 +523,20 @@ export default function Screen() {
 					/>
 				)
 			}
+			{/*Time Picker Tasks*/}
+			{
+				showTimePickerTask && (
+					<DateTimePicker
+						testID="dateTimePicker"
+						value={time}
+						mode="date"
+						is24Hour={true}
+						display="default"
+						onChange={onTaskDateChange}
+					/>
+				)
+			}
 			{/* Tasks */}
-
 			{/*Starred*/}
 			<View className="h-full w-full">
 				{activeTab === 'Starred' && starredTasks.length === 0 ? (
@@ -479,6 +583,14 @@ export default function Screen() {
 											newTasks[index].completed = !task.completed;
 											setTasks(newTasks);
 											saveCheckedlist(newTasks);
+										}}
+										onLongPress={() => {
+											setTaskDialogOpen(true);
+											setTaskInputText(task.description);
+											setTaskInputDate(task.date);
+											setTaskStarred(task.starred);
+											setTaskSelectedList(task.listName);
+											setChangeIndex(index);
 										}}
 									>
 										<Checkbox className='rounded-full ml-4' checked={task.completed} onCheckedChange={
@@ -555,6 +667,15 @@ export default function Screen() {
 											newTasks[index].completed = !task.completed;
 											setTasks(newTasks);
 											saveCheckedlist(newTasks);
+										}}
+
+										onLongPress={() => {
+											setTaskDialogOpen(true);
+											setTaskInputText(task.description);
+											setTaskInputDate(task.date);
+											setTaskStarred(task.starred);
+											setTaskSelectedList(task.listName);
+											setChangeIndex(index);
 										}}
 									>
 										<Checkbox className='rounded-full ml-4' checked={task.completed} onCheckedChange={
