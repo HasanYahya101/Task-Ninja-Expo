@@ -45,6 +45,14 @@ import { ScrollText } from '~/lib/icons/ScrollText';
 const { height } = Dimensions.get('window');
 const DRAWER_HEIGHT = 568; // 498 prev
 
+interface TaskJson {
+	description: string;
+	date: string; // Dates are typically represented as strings in JSON
+	starred: boolean;
+	listName: string;
+	completed: boolean;
+}
+
 class Task {
 	constructor(
 		public description: string,
@@ -54,12 +62,13 @@ class Task {
 		public completed: boolean,
 	) { }
 
-	static fromJson(json: any): Task {
+	static fromJson(json: TaskJson): Task {
 		return new Task(
 			json.description,
 			new Date(json.date),
 			json.starred,
-			json.listName
+			json.listName,
+			json.completed,
 		);
 	}
 }
@@ -304,6 +313,15 @@ export default function Screen() {
 		return tasks.filter((task) => task.listName === listName).length;
 	};
 
+	const saveCheckedlist = async (tasks: Task[]) => {
+		try {
+			await AsyncStorage.setItem('tasks', JSON.stringify(tasks));
+		} catch (error) {
+			console.error('Failed to save tasks:', error);
+		}
+		console.log('Tasks saved successfully!');
+	};
+
 	return (
 		<View className="z-10 flex-1 justify-start gap-0 p-0 bg-white dark:bg-black h-full">
 			{/* Tabs */}
@@ -456,6 +474,7 @@ export default function Screen() {
 											const newTasks = [...tasks];
 											newTasks[index].completed = !task.completed;
 											setTasks(newTasks);
+											saveCheckedlist(newTasks);
 										}}
 									>
 										<Checkbox className='rounded-full ml-4' checked={task.completed} onCheckedChange={
@@ -463,6 +482,7 @@ export default function Screen() {
 												const newTasks = [...tasks];
 												newTasks[index].completed = checked;
 												setTasks(newTasks);
+												saveCheckedlist(newTasks);
 											}
 										}
 										/>
@@ -530,6 +550,7 @@ export default function Screen() {
 											const newTasks = [...tasks];
 											newTasks[index].completed = !task.completed;
 											setTasks(newTasks);
+											saveCheckedlist(newTasks);
 										}}
 									>
 										<Checkbox className='rounded-full ml-4' checked={task.completed} onCheckedChange={
@@ -537,6 +558,7 @@ export default function Screen() {
 												const newTasks = [...tasks];
 												newTasks[index].completed = checked;
 												setTasks(newTasks);
+												saveCheckedlist(newTasks);
 											}
 										}
 										/>
