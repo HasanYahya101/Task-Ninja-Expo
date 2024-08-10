@@ -49,44 +49,43 @@ export function ProfileButton() {
             >
                 <DialogContent className='w-[80vw]'
                 >
-                    <DialogHeader>
-                        <DialogTitle>Edit Profile Info</DialogTitle>
-                    </DialogHeader>
+
+                    <DialogTitle>Edit Profile Info</DialogTitle>
                     <DialogDescription>
-                        <View className='flex items-center justify-center'>
+                        <View className="flex items-center justify-center">
                             {/* Profile Picture */}
-                            <View className='flex items-center justify-center'>
-                                <Avatar
-                                    className='text-foreground h-[80px] w-[80px] rounded-full border border-gray-200'
-                                >
-                                    <AvatarImage
-                                        src={`https://github.com/${githubusername}.png`}
-                                    />
+                            <View className="items-center justify-center p-4">
+                                <Avatar className="h-20 w-20 rounded-full border border-gray-300">
+                                    <AvatarImage src={`https://github.com/${githubusername}.png`} />
                                     <AvatarFallback>
-                                        <Text className='text-muted-foreground text-4xl'
-                                        >
-                                            {/*if username is '', show U else show usernames first letter in capital*/}
+                                        <Text className="text-gray-500 text-4xl">
                                             {username ? username[0].toUpperCase() : 'U'}
                                         </Text>
                                     </AvatarFallback>
                                 </Avatar>
                             </View>
-                            <View className='flex flex-col mt-4 w-full'>
-                                <Text className='text-sm font-semibold mb-0'>Name</Text>
-                                <Input value={username} selectionColor="gray" className='mt-2' placeholder="Enter your name..."
+                            <View className="flex flex-col mt-2 w-full px-2">
+                                <Text className="text-base font-semibold mb-1">Name</Text>
+                                <Input
+                                    value={username}
+                                    selectionColor="gray"
+                                    className="mt-1 border border-gray-300 rounded-md py-2 w-full"
+                                    placeholder="Enter your name..."
                                     onChangeText={(text) => setUsername(text)}
                                 />
-                                <Text className='text-sm font-semibold mb-0 mt-4'>Github Username</Text>
-                                <Input value={githubusername} selectionColor="gray" className='mt-2' placeholder="Enter your github username..."
+                                <Text className="text-base font-semibold mt-6 mb-1">Github Username</Text>
+                                <Input
+                                    value={githubusername}
+                                    selectionColor="gray"
+                                    className="mt-1 border border-gray-300 rounded-md py-2 w-full"
+                                    placeholder="Enter your github username..."
                                     onChangeText={(text) => setGithubUsername(text)}
                                 />
                             </View>
                         </View>
+
                     </DialogDescription>
                 </DialogContent>
-                <DialogFooter>
-
-                </DialogFooter>
             </Dialog>
             <Pressable
                 onPress={() => {
