@@ -128,7 +128,8 @@ export function ProfileButton() {
                     </DialogDescription>
                 </DialogContent>
             </Dialog>
-            <TouchableOpacity>
+            <TouchableOpacity className='mr-1'
+            >
                 <Pressable
                     onPress={() => {
                         setOpen(true);
