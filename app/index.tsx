@@ -462,7 +462,7 @@ export default function Screen() {
 			<View className="flex-1">
 				{isOpen && (
 					<TouchableOpacity
-						className="absolute inset-0 bg-gray-500 bg-opacity-50"
+						className="absolute inset-0 bg-gray-500 bg-opacity-50 z-[35]"
 						onPress={closeDrawer}
 						activeOpacity={1}
 					/>
