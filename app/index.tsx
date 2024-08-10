@@ -469,6 +469,7 @@ export default function Screen() {
 				)}
 
 				<Animated.View
+					pointerEvents={isOpen ? 'auto' : 'none'}
 					className={`absolute left-0 right-0 z-40 bottom-0 bg-white rounded-t-3xl shadow-none border-b border-t border-x border-gray-200`}
 					style={[
 						{
