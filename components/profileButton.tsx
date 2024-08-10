@@ -18,7 +18,7 @@ import {
 } from '~/components/ui/dialog';
 import { Input } from '~/components/ui/input';
 import { Button } from './ui/button';
-import { Keyboard } from 'react-native';
+import { Keyboard, TouchableOpacity } from 'react-native';
 
 export function ProfileButton() {
     const [username, setUsername] = useState('');
@@ -79,16 +79,20 @@ export function ProfileButton() {
         <View>
             <Dialog open={open} onOpenChange={setOpen}
             >
-                <DialogContent className=''
+                <DialogContent
                 >
-
                     <DialogTitle>Edit Profile Info</DialogTitle>
                     <DialogDescription>
                         <View className="flex items-center justify-center">
                             {/* Profile Picture */}
                             <View className="items-center justify-center p-4">
-                                <Avatar className="h-20 w-20 rounded-full border border-gray-300">
-                                    <AvatarImage src={`https://github.com/${githubusername}.png`} />
+                                <Avatar className="h-20 w-20 rounded-full"
+                                    alt='Profile Picture'
+                                >
+                                    <AvatarImage
+                                        source={{ uri: 'https://avatars.githubusercontent.com/' + githubusername }}
+                                        className="h-20 w-20 rounded-full"
+                                    />
                                     <AvatarFallback>
                                         <Text className="text-gray-500 text-4xl">
                                             {username ? username[0].toUpperCase() : 'U'}
@@ -124,38 +128,41 @@ export function ProfileButton() {
                     </DialogDescription>
                 </DialogContent>
             </Dialog>
-            <Pressable
-                onPress={() => {
-                    setOpen(true);
-                    setUsernameInput(username);
-                    setGithubUsernameInput(githubusername);
-                }}
-                className='web:ring-offset-background web:transition-colors web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2'
-            >
-                {({ pressed }) => (
-                    <View
-                        className={cn(
-                            'flex-1 aspect-square pt-0.5 justify-center items-start web:px-5',
-                            pressed && 'opacity-70'
-                        )}
-                    >
-                        <Avatar
-                            className='text-foreground h-12 w-12 ml-2 mt-2 rounded-full'
+            <TouchableOpacity>
+                <Pressable
+                    onPress={() => {
+                        setOpen(true);
+                        setUsernameInput(username);
+                        setGithubUsernameInput(githubusername);
+                    }}
+                    className='web:ring-offset-background web:transition-colors web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2'
+                >
+                    {({ pressed }) => (
+                        <View
+                            className={cn(
+                                'flex-1 aspect-square pt-0.5 justify-center items-start web:px-5',
+                                pressed && 'opacity-70'
+                            )}
                         >
-                            <AvatarImage
-                                src={`https://github.com/${githubusername}.png`}
-                            />
-                            <AvatarFallback>
-                                <Text className='text-muted-foreground text-lg'
-                                >
-                                    {/*if username is '', show U else show usernames first letter in capital*/}
-                                    {username ? username[0].toUpperCase() : 'U'}
-                                </Text>
-                            </AvatarFallback>
-                        </Avatar>
-                    </View>
-                )}
-            </Pressable>
+                            <Avatar alt='Profile Picture'
+                                className='text-foreground h-12 w-12 ml-2 mt-2 rounded-full'
+                            >
+                                <AvatarImage
+                                    source={{ uri: 'https://avatars.githubusercontent.com/' + githubusername }}
+                                    className='rounded-full'
+                                />
+                                <AvatarFallback>
+                                    <Text className='text-muted-foreground text-lg'
+                                    >
+                                        {/*if username is '', show U else show usernames first letter in capital*/}
+                                        {username ? username[0].toUpperCase() : 'U'}
+                                    </Text>
+                                </AvatarFallback>
+                            </Avatar>
+                        </View>
+                    )}
+                </Pressable>
+            </TouchableOpacity>
         </View>
     );
 }
