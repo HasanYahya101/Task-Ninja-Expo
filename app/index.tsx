@@ -154,6 +154,10 @@ export default function Screen() {
 	}, [Lists]);
 
 	const addTask = () => {
+		if (inputText.length < 5) {
+			Alert.alert('Error', 'Task name should be at least 5 characters long.');
+			return;
+		}
 		const newTask = new Task(inputText, time, starred, selectedList, false);
 		// merge new task with existing tasks
 		setTasks([...tasks, newTask]);
@@ -467,7 +471,7 @@ export default function Screen() {
 						{tasks.map((task, index) => (
 
 							task.starred ? (
-								<View key={index} className="flex-row items-center justify-between border border-dashed border-gray-300 p-4 py-6"
+								<View key={index} className="flex-row items-center justify-between border-b border-dashed border-gray-300 p-4 py-6"
 								>
 									<TouchableOpacity className='flex-row items-center flex-1'
 										onPress={() => {
@@ -543,7 +547,7 @@ export default function Screen() {
 						{tasks.map((task, index) => (
 
 							task.listName === `${activeTab}` ? (
-								<View key={index} className="flex-row items-center justify-between border border-dashed border-gray-300 p-4 py-6"
+								<View key={index} className="flex-row items-center justify-between border-b border-dashed border-gray-300 p-4 py-6"
 								>
 									<TouchableOpacity className='flex-row items-center flex-1'
 										onPress={() => {
