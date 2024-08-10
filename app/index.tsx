@@ -446,8 +446,8 @@ export default function Screen() {
 					<Input value={listInput} selectionColor="gray" className='mt-2' placeholder="Enter list name here..."
 						onChangeText={(text) => setListInput(text)}
 					/>
-					<Button className='bg-blue-500 mt-5' onPress={editChanges}>
-						<Text>Add Task</Text>
+					<Button className='bg-blue-500 mt-5' onPress={newListClicked}>
+						<Text>Add List</Text>
 					</Button>
 				</DialogContent>
 			</Dialog>
@@ -479,7 +479,7 @@ export default function Screen() {
 						<Text className="text-sm font-semibold mb-2">
 							Assign to List
 						</Text>
-						<Select value={{ value: taskSelectedList, label: taskSelectedList }} className='mb-4' defaultValue={{ value: `${taskSelectedList}`, label: `${taskSelectedList}` }}
+						<Select value={{ value: taskSelectedList, label: taskSelectedList }} className='mb-4' defaultValue={{ value: 'My Tasks', label: 'My Tasks' }}
 							onValueChange={(value) => setTaskSelectedList(value.value)}
 						>
 							<SelectTrigger className='w-full'>
