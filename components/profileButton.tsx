@@ -90,7 +90,7 @@ export function ProfileButton() {
                                     alt='Profile Picture'
                                 >
                                     <AvatarImage
-                                        source={{ uri: 'https://avatars.githubusercontent.com/' }}
+                                        source={{ uri: 'https://avatars.githubusercontent.com/' }} // the actual image breaks the dialog so i put it as a link that goes no where
                                         className='rounded-full'
                                     />
                                     <AvatarFallback>
