@@ -6,7 +6,7 @@ This is a Task Tracking app that is built for Android and IOS using React Native
 
 ## UI Library
 
-[React Native Reusables](https://github.com/mrzachnugent/react-native-reusables) is used as UI Library for tgis application. Moreover, `react-native-reanimated` is also used in it as an animation library.
+[React Native Reusables](https://github.com/mrzachnugent/react-native-reusables) is used as UI Library for this application. Moreover, `react-native-reanimated` is also used in this, as an animation library.
 
 ## Deployment
 
